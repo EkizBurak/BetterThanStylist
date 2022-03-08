@@ -1,3 +1,146 @@
 <ion-header [translucent]="true"> </ion-header>
 
-<ion-content [fullscreen]="true"> </ion-content>
+<ion-content [fullscreen]="true">
+  <ion-slides pager="true" [options]="slideOpts" (ionSlidesDidLoad)="deneme2()">
+    <ion-slide style="background-image: url('assets/images/slider1.jpg')">
+      <h1>Welcome</h1>
+      <h4>Better Than Stylist is a practical of shaping your lifestyle</h4>
+    </ion-slide>
+
+    <ion-slide
+      style="
+        background-image: url('assets/images/slider2.jpg');
+        background-color: red;
+      "
+    >
+      <h1>Information</h1>
+      <h4>
+        We need some of your personal information to be able to make
+        recommendations to you.
+      </h4>
+    </ion-slide>
+
+    <ion-slide style="padding-top: 0px"
+      ><ion-content [fullscreen]="true">
+        <ion-toolbar>
+          <ion-title>Register</ion-title>
+        </ion-toolbar>
+
+        <ion-item lines="full">
+          <ion-label position="floating">First Name</ion-label>
+          <ion-input required [(ngModel)]="firstName"></ion-input>
+        </ion-item>
+        <ion-item lines="full">
+          <ion-label position="floating">Last Name</ion-label>
+          <ion-input required [(ngModel)]="lastName"></ion-input>
+        </ion-item>
+
+        <ion-item lines="full">
+          <ion-label position="floating">Year</ion-label>
+          <ion-input
+            required
+            type="number"
+            [(ngModel)]="year"
+            value="1900"
+            max="2022"
+            min="1900"
+          >
+          </ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Gender</ion-label>
+          <ion-select
+            required
+            [(ngModel)]="gender"
+            [interfaceOptions]="customAlertOptions"
+            interface="Choose your gender"
+            placeholder="Select One"
+            mode="ios"
+          >
+            <ion-select-option value="male">Male</ion-select-option>
+            <ion-select-option value="female">Female</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>Music Platform</ion-label>
+          <ion-select
+            required
+            [(ngModel)]="musicPlatform"
+            [interfaceOptions]="customAlertOptions"
+            interface="Choose your platform"
+            mode="ios"
+            multiple="true"
+          >
+            <ion-select-option value="Spotify">Spotify</ion-select-option>
+            <ion-select-option value="YoutubeMusic"
+              >Youtube Music</ion-select-option
+            >
+            <ion-select-option value="AppleMusic"
+              >Apple Music</ion-select-option
+            >
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label>language</ion-label>
+          <ion-select
+            required
+            [(ngModel)]="language"
+            [interfaceOptions]="customAlertOptions"
+            interface="Choose your language
+                "
+            mode="ios"
+          >
+            <ion-select-option value="Turkish">Turkish</ion-select-option>
+            <ion-select-option value="English">English</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-checkbox
+            color="danger"
+            [(ngModel)]="termsAndConditions"
+            class="termsAndConditionsCheckBox"
+          ></ion-checkbox>
+          <ion-label class="termsAndConditions">
+            I accept the<ion-router-link id="trigger-termsandconditions"
+              >Terms & Conditions</ion-router-link
+            ></ion-label
+          >
+
+          <ion-modal trigger="trigger-termsandconditions">
+            <ng-template>
+              <ion-content
+                ><ion-toolbar>
+                  <ion-title>Terms & Conditions</ion-title>
+                </ion-toolbar>
+                <div class="termsAndConditionsText">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley of type and scrambled it to make a type
+                  specimen book. It has survived not only five centuries, but
+                  also the leap into electronic typesetting, remaining
+                  essentially unchanged. It was popularised in the 1960s with
+                  the release of Letraset sheets containing Lorem Ipsum
+                  passages, and more recently with desktop publishing software
+                  like Aldus PageMaker including versions of Lorem Ipsum.
+                </div>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+        </ion-item>
+
+        <ion-item lines="none">
+          <ion-button
+            slot="end"
+            size="medium"
+            color="danger"
+            (click)="deneme()"
+            mode="ios"
+            >Register</ion-button
+          >
+        </ion-item>
+      </ion-content>
+    </ion-slide>
+  </ion-slides>
+</ion-content>
