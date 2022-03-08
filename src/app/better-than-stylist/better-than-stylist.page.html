@@ -1,0 +1,175 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="headerbg">
+    <ion-buttons slot="start" (click)="openCustom()">
+      <ion-icon name="menu-outline" class="beyazicon" size="large"></ion-icon>
+    </ion-buttons>
+    <ion-img id="headerLogo" src="assets/logo.png"></ion-img>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon
+          slot="end"
+          size="large"
+          class="beyazicon"
+          name="notifications"
+        ></ion-icon>
+        <ion-badge color="danger" class="badge-one">2</ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-menu side="start" menuId="custom" contentId="main" class="menu">
+  <ion-header>
+    <ion-toolbar color="tertiary">
+      <ion-title>Better Than Stylist</ion-title>
+      <ion-buttons slot="end" (click)="closeMenu()">
+        <ion-icon
+          name="close-outline"
+          class="beyazicon"
+          size="large"
+        ></ion-icon>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="menucontent">
+    <ion-button expand="full" class="menuButton">
+      <ion-icon name="home-outline" class="menuicon"></ion-icon>
+      <ion-label class="menutext"
+        >{{languages["Home"][language] || "Home"}}</ion-label
+      ></ion-button
+    >
+
+    <ion-button expand="full" class="menuButton" id="trigger-profile">
+      <ion-icon name="settings-outline" class="menuicon"></ion-icon>
+      <ion-label class="menutext"
+        >{{languages["Profile"][language] || "Profile"}}</ion-label
+      ></ion-button
+    >
+
+    <ion-modal trigger="trigger-profile">
+      <ng-template>
+        <ion-list>
+          <ion-item lines="full">
+            <ion-label position="floating"
+              >{{languages["FirstName"][language] || "First Name"}}</ion-label
+            >
+            <ion-input
+              required
+              [(ngModel)]="firstName"
+              value="{{firstName}}"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating"
+              >{{languages["LastName"][language] || "Last Name"}}</ion-label
+            >
+            <ion-input
+              required
+              [(ngModel)]="lastName"
+              value="{{lastName}}"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item lines="full">
+            <ion-label position="floating"
+              >{{languages["YearOfBirth"][language] || "year of
+              birth"}}</ion-label
+            >
+            <ion-input
+              required
+              type="number"
+              [(ngModel)]="year"
+              max="2022"
+              min="1900"
+              value="{{year}}"
+            >
+            </ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label
+              >{{languages["Gender"][language] || " Gender"}}</ion-label
+            >
+            <ion-select
+              required
+              [(ngModel)]="gender"
+              [interfaceOptions]="customAlertOptions"
+              interface="Choose your gender"
+              placeholder="Select One"
+              mode="ios"
+              value="{{gender}}"
+            >
+              <ion-select-option value="male"
+                >{{languages["Male"][language] || "Male"}}</ion-select-option
+              >
+              <ion-select-option value="female"
+                >{{languages["Female"][language] ||
+                "Female"}}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label
+              >{{languages["MusicPlatform"][language] || "Music
+              Platform"}}</ion-label
+            >
+            <ion-select
+              required
+              [(ngModel)]="musicPlatform"
+              [interfaceOptions]="customAlertOptions"
+              interface="Choose your platform"
+              mode="ios"
+              multiple="true"
+              value="{{musicPlatform}}"
+            >
+              <ion-select-option value="Spotify">Spotify</ion-select-option>
+              <ion-select-option value="YoutubeMusic"
+                >Youtube Music</ion-select-option
+              >
+              <ion-select-option value="AppleMusic"
+                >Apple Music</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label
+              >{{languages["language"][language] || "language"}}</ion-label
+            >
+            <ion-select
+              required
+              [(ngModel)]="language"
+              [interfaceOptions]="customAlertOptions"
+              interface="Choose your language"
+              mode="ios"
+              value="{{language}}"
+            >
+              <ion-select-option value="Turkish"
+                >{{languages["Turkish"][language] ||
+                "Turkish"}}</ion-select-option
+              >
+              <ion-select-option value="English"
+                >{{languages["English"][language] ||
+                "English"}}</ion-select-option
+              >
+            </ion-select>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-button
+              slot="end"
+              size="medium"
+              color="danger"
+              (click)="update()"
+              mode="ios"
+              >{{languages["Save"][language] || "Save"}}</ion-button
+            >
+          </ion-item>
+        </ion-list>
+      </ng-template>
+    </ion-modal>
+  </ion-content>
+</ion-menu>
+<ion-content [fullscreen]="true" id="main"> </ion-content>
