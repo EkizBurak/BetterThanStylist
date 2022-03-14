@@ -17,6 +17,7 @@ export class DatabaseService {
     private router: Router
   ) {
     platform.ready().then(() => {
+      
       this.sqlite
         .create({
           name: 'users.db',
@@ -31,9 +32,8 @@ export class DatabaseService {
           this.databaseNesnesi = db;
         })
         .then(() => {
-          this.getUserCount().then((result) => {
+          this.getUser().then((result) => {
             this.userCount = result.rows.length;
-
             if (this.userCount >= 1) {
               this.router.navigateByUrl('/better-than-stylist');
             }
@@ -47,7 +47,7 @@ export class DatabaseService {
       console.log(toast);
     });
   }
-  getUserCount() {
+  getUser() {
     return this.databaseNesnesi
       .executeSql('select * from usersdata', [])
       .then((data) => {

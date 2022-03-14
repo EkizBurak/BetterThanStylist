@@ -19,6 +19,7 @@ const routes: Routes = [
         (m) => m.BetterThanStylistPageModule
       ),
   },
+
 ];
 
 @NgModule({
