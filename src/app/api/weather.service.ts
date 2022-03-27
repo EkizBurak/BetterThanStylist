@@ -17,15 +17,12 @@ export class WeatherService {
 
   getWeatherByCoord(lat: number, lon: number) {
 
-    //"https://jsonplaceholder.typicode.com/todos/1"
     return this.http.get("https://api.openweathermap.org/data/2.5/weather?lat="+lat +"&lon="+lon+"&lang=en&appid="+this.apiKey, {}, {})
     .then((data) => 
     {
       let x = data.data;
       x=JSON.stringify(x).replace(/\\/g, "").replace('"',"'").replace(/.$/,"'");
-      return JSON.parse(eval(x));
-      
-     
+      return JSON.parse(eval(x));     
     })
     .catch((e)=>this.db.sendMsg(JSON.stringify(e)))
   }

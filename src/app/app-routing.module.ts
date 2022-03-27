@@ -12,13 +12,6 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
-  {
-    path: 'better-than-stylist',
-    loadChildren: () =>
-      import('./better-than-stylist/better-than-stylist.module').then(
-        (m) => m.BetterThanStylistPageModule
-      ),
-  },
 
 ];
 
