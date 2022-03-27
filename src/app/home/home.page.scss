@@ -25,7 +25,6 @@ h4 {
 }
 
 ion-title {
-  padding-top: 20px;
   text-align: center;
 }
 .termsAndConditions {
@@ -38,4 +37,43 @@ ion-title {
 }
 .termsAndConditionsText {
   padding: 20px;
+}
+
+#headerLogo {
+  width: 175px;
+  padding: 10px;
+}
+.badge-one {
+  --color: white;
+  position: absolute;
+  top: 0;
+  right: -3px;
+  z-index: 1;
+  font-size: 8px;
+}
+
+.smallicon {
+  color: white;
+}
+.headerbg {
+  --background: #363636;
+}
+
+ion-icon {
+  font-size: 24px;
+}
+.menucontent {
+  --background: #363636;
+}
+.menuicon {
+  position: absolute;
+  left: 10px;
+}
+.menutext {
+  font-family: serif;
+  position: absolute;
+  left: 40px;
+}
+.menuButton {
+  --background: none;
 }
