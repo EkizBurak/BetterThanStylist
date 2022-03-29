@@ -128,4 +128,16 @@ export class DatabaseService {
 
     this.sendMsg('User update successfully');
   }
+  getAlert(weatherTitle, weatherDesc)
+  {
+    return this.databaseNesnesi.executeSql(`select * from reminder where weatherTitle LIKE '%${weatherTitle}%' and weatherDesc LIKE '%${weatherDesc}%'`,[]).then((data)=>{
+      let alert = [];
+      if(data.rows.length>0){ 
+        for(let k=0;k<data.rows.length;k++){
+          alert.push({reminderName:data.rows.item(k).reminderName, weatherTextArea:data.rows.item(k).weatherTextArea});    
+        }
+      }
+      return alert;
+    });
+  }
 }
