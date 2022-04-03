@@ -32,7 +32,7 @@ export class DatabaseService {
       ).then(()=>
       {
         db.executeSql(
-        'create table IF NOT EXISTS reminder(isActive TEXT,reminderName TEXT, weatherTitle TEXT, weatherDesc TEXT, weatherTextArea TEXT)',
+        'create table IF NOT EXISTS reminder(isActive TEXT, reminderAlertLevel TEXT, reminderName TEXT, weatherTitle TEXT, weatherDesc TEXT, weatherTextArea TEXT)',
         []
       );
     });
@@ -77,14 +77,14 @@ export class DatabaseService {
     );
     this.sendMsg('User update successfully');
   }
-  createReminder(reminderName,weatherTitle,weatherDesc,weatherTextArea)
+  createReminder(reminderName,reminderAlertLevel,weatherTitle,weatherDesc,weatherTextArea)
   {
     this.databaseNesnesi.executeSql(`select * from reminder where reminderName='${reminderName}'`,[]).then((result)=>
     {
       if(result.rows.length==0)
       {
         this.databaseNesnesi.executeSql(
-          `insert into reminder (isActive, reminderName, weatherTitle, weatherDesc, weatherTextArea) values ('true','${reminderName}','${weatherTitle}','${weatherDesc}','${weatherTextArea}')`
+          `insert into reminder (isActive, reminderName, reminderAlertLevel, weatherTitle, weatherDesc, weatherTextArea) values ('true','${reminderName}','${reminderAlertLevel}','${weatherTitle}','${weatherDesc}','${weatherTextArea}')`
         );
         this.sendMsg("Reminder Create Succesfully")
       }
@@ -102,7 +102,7 @@ export class DatabaseService {
         let reminder = [];
         if(data.rows.length>0){ 
           for(let k=0;k<data.rows.length;k++){
-            reminder.push({isActive:data.rows.item(k).isActive, reminderName:data.rows.item(k).reminderName, weatherTitle:data.rows.item(k).weatherTitle, weatherDesc:data.rows.item(k).weatherDesc, weatherTextArea:data.rows.item(k).weatherTextArea});    
+            reminder.push({isActive:data.rows.item(k).isActive, reminderName:data.rows.item(k).reminderName, reminderAlertLevel:data.rows.item(k).reminderAlertLevel, weatherTitle:data.rows.item(k).weatherTitle, weatherDesc:data.rows.item(k).weatherDesc, weatherTextArea:data.rows.item(k).weatherTextArea});    
           }
         }
         return reminder;
@@ -120,21 +120,21 @@ export class DatabaseService {
     );
     this.sendMsg('User update successfully');
   }
-  updateReminder(reminderUpdateName,reminderName,weatherTitle,weatherDesc,weatherTextArea)
+  updateReminder(reminderUpdateName,reminderName,reminderAlertLevel,weatherTitle,weatherDesc,weatherTextArea)
   {
     this.databaseNesnesi.executeSql(
-      `update reminder set reminderName = '${reminderUpdateName}', weatherTitle= '${weatherTitle}', weatherDesc= '${weatherDesc}', weatherTextArea= '${weatherTextArea}' where reminderName='${reminderName}'`
+      `update reminder set reminderName = '${reminderUpdateName}', reminderAlertLevel='${reminderAlertLevel}',weatherTitle= '${weatherTitle}', weatherDesc= '${weatherDesc}', weatherTextArea= '${weatherTextArea}' where reminderName='${reminderName}'`
     );
 
     this.sendMsg('User update successfully');
   }
   getAlert(weatherTitle, weatherDesc)
   {
-    return this.databaseNesnesi.executeSql(`select * from reminder where weatherTitle LIKE '%${weatherTitle}%' and weatherDesc LIKE '%${weatherDesc}%'`,[]).then((data)=>{
+    return this.databaseNesnesi.executeSql(`select * from reminder where weatherTitle LIKE '%${weatherTitle}%' and weatherDesc LIKE '%${weatherDesc}%' and isActive='true'`,[]).then((data)=>{
       let alert = [];
       if(data.rows.length>0){ 
         for(let k=0;k<data.rows.length;k++){
-          alert.push({reminderName:data.rows.item(k).reminderName, weatherTextArea:data.rows.item(k).weatherTextArea});    
+          alert.push({reminderName:data.rows.item(k).reminderName,reminderAlertLevel:data.rows.item(k).reminderAlertLevel, weatherTitle:data.rows.item(k).weatherTitle, weatherDesc:data.rows.item(k).weatherDesc, weatherTextArea:data.rows.item(k).weatherTextArea});    
         }
       }
       return alert;
