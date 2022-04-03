@@ -100,8 +100,8 @@ export class HomePage {
     create:{Turkish:"Oluştur",English:"Create"},
     weathertitle:{Turkish:"Hava Durumu Başlığır",English:"Weather Title"},
     weatherdesc:{Turkish:"Hava Durumu Açıklaması",English:"Weather Desc"},
-    update:{Turkish:"Güncelle", English:"Update"}
-    
+    update:{Turkish:"Güncelle", English:"Update"},
+    reminderAlertLevel:{Turkish:"Hatırlatıcı Uyarı Seviyesi",English:"Reminder Alert Level"}
   };
   modal="false";
   createModal="false";
@@ -115,6 +115,7 @@ export class HomePage {
   userCount:number;
   cityLocation="";
 
+  reminderAlertLevel:string;
   reminderIsActive:string;
   reminderName:string;
   reminderWeatherTitle:any;
@@ -131,9 +132,18 @@ export class HomePage {
   long: number;
   time: any;
   weatherIcon:string;
+  weatherTemp:number;
   reminderUpdateName:string;
-  alert:any;
-  constructor(private db: DatabaseService,public platform: Platform,private menu: MenuController,
+  alert=[];
+  spotifyPlaylists=[];
+  youtubeMusicPlaylists=[];
+  appleMusicPlaylists=[];
+  playlists={};
+  playlistsLength:any;
+  constructor(
+    private db: DatabaseService,
+    public platform: Platform,
+    private menu: MenuController,
     private geoLocation: Geolocation,
     private weather: WeatherService,
     private androidPermissions: AndroidPermissions,
@@ -250,7 +260,8 @@ export class HomePage {
                   this.sunrise = weatherApi['sys']['sunrise'];
                   this.city=weatherApi['name'];
                   this.windSpeed = weatherApi['wind']['speed'];
-                  
+                  this.weatherTemp=weatherApi["main"]["temp"];
+
                   var sunSetDate = new Date(this.sunset * 1000);
                   
                   this.sunset = sunSetDate.getHours() + ' ' + sunSetDate.getMinutes();
@@ -288,10 +299,23 @@ export class HomePage {
                   this.time = new Date();
       
                   this.time = this.time.getHours() + ' ' + this.time.getMinutes();
+
+                  this.weather.getPlaylist(this.weatherMain).then((result)=>
+                  {
+                    
+
+                    
+                    this.spotifyPlaylists=result["spotifyPlaylist"];
+                    this.youtubeMusicPlaylists=result["youtubeMusicPlaylist"];
+                    this.appleMusicPlaylists=result["appleMusicPlaylist"];
+
+                    this.db.sendMsg(JSON.stringify(this.spotifyPlaylists));
+                    
+                  });
+
                   this.db.getAlert(this.weatherMain.toLowerCase(),this.weatherDesc.toLowerCase()).then((result) => 
                   {
                     this.alert=result;
-                    this.db.sendMsg(JSON.stringify(this.alert));
                   });
                 });
             })
@@ -325,9 +349,9 @@ export class HomePage {
     }
     else
     {
-      this.db.createReminder(this.reminderName, this.reminderWeatherTitle, this.reminderWeatherDesc ,this.reminderWeatherTextArea);
-      this.reminderWeatherTextArea="";
+      this.db.createReminder(this.reminderName,this.reminderAlertLevel, this.reminderWeatherTitle, this.reminderWeatherDesc ,this.reminderWeatherTextArea);
       this.closeModal();
+      this.getLocation();
     }
   }
 
@@ -343,7 +367,7 @@ export class HomePage {
     }
     else
     {
-      this.db.updateReminder(this.reminderUpdateName,this.reminderName, this.reminderWeatherTitle, this.reminderWeatherDesc ,this.reminderWeatherTextArea);
+      this.db.updateReminder(this.reminderUpdateName,this.reminderName,this.reminderAlertLevel, this.reminderWeatherTitle, this.reminderWeatherDesc ,this.reminderWeatherTextArea);
     }
     this.closeModal();
   }
@@ -351,12 +375,12 @@ export class HomePage {
   {
     this.createModal="True";
   }
-  openModal(isActive:string, reminderName:string, weatherTitle:string, weatherDesc:string, weatherTextArea:string)
+  openModal(isActive:string, reminderName:string, reminderAlertLevel:string,weatherTitle:string, weatherDesc:string, weatherTextArea:string)
   {
     
     this.reminderIsActive=isActive;
     this.reminderName=reminderName;
-
+    this.reminderAlertLevel=reminderAlertLevel;
     this.reminderWeatherTitle=weatherTitle.split(",");
     this.reminderWeatherDesc=weatherDesc.split(",");
     this.reminderWeatherTextArea=weatherTextArea; 
@@ -372,6 +396,7 @@ export class HomePage {
     });
     this.reminderIsActive=undefined;
     this.reminderName=undefined;
+    this.reminderAlertLevel=undefined;
     this.reminderWeatherTitle=undefined;
     this.reminderWeatherDesc=undefined;
     this.reminderWeatherTextArea=""; 
@@ -710,6 +735,22 @@ export class HomePage {
       this.reminderWeatherDesc=reminderWeatherDesc;
     }
     this.db.sendMsg(reminderWeatherDesc);
+  }
+  deneme()
+  {
+    this.weather.getPlaylist(this.weatherMain).then((result)=>
+    {
+      /*
+      this.playlists.push({"spotify":result["spotify"]});
+      this.playlists.push({"youtubeMusic":result["youtubeMusic"]});
+      this.playlists.push({"appleMusic":result["appleMusic"]});
+      */
+
+      this.playlists={"spotify":result["spotify"],"youtubeMusic":result["youtubeMusic"],"appleMusic":result["appleMusic"]};
+
+      this.db.sendMsg(JSON.stringify(this.playlists));
+      
+    });
   }
 }
   
