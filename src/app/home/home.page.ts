@@ -7,6 +7,7 @@ import { WeatherService } from '../api/weather.service';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
+import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
 
 @Component({
   selector: 'app-home',
@@ -16,92 +17,106 @@ import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 })
 export class HomePage {
   languages = {
-    Home: { Turkish: 'Anasayfa', English: 'Home' },
-    Profile: { Turkish: 'Profil', English: 'Profile' },
-    FirstName: { Turkish: 'Ad', English: 'First Name' },
-    LastName: { Turkish: 'Soyad', English: 'Last Name' },
-    YearOfBirth: { Turkish: 'Doğum yılı', English: 'Year of Birth' },
-    Gender: { Turkish: 'Cinsiyet', English: 'Gender' },
-    Male: { Turkish: 'Erkek', English: 'Male' },
-    Female: { Turkish: 'Kadın', English: 'Female' },
-    MusicPlatform: { Turkish: 'Muzik Platformu', English: 'Music Platform' },
-    language: { Turkish: 'Dil', English: 'language' },
-    Turkish: { Turkish: 'Türkçe', English: 'Turkish' },
-    English: { Turkish: 'İngilizce', English: 'English' },
-    Save: { Turkish: 'Kaydet', English: 'Save' },
-    Sunrise: { Turkish: 'Gün Batımı', English: 'Sunrise' },
-    Sunset: { Turkish: 'Gün Doğumu', English: 'Sunset' },
-    WindSpeed: { Turkish: 'Rüzgar Hızı', English: 'Wind Speed' },
-    Weather: { Turkish: 'Hava Durumu', English: 'Weather' },
-    Reminder: {Turkish:"Hatırlatıcı", English: "Reminder"},
-    ReminderName: {Turkish:"Hatırlatıcı İsmi", English: "Reminder Name"},
-    City: { Turkish: 'Şehir', English: 'City' },
-    thunderstormwithlightrain: { Turkish: 'Hafif Yağmurlu Fırtına', English: 'Thunderstorm With Light Rain' },
-    thunderstormwithrain	: { Turkish: 'Yağmurlu Fırtına', English: 'Thunderstorm With Rain' },
-    thunderstormwithheavyrain	: { Turkish: 'Şiddetli Yağmurlu Fırtına', English: 'Thunderstorm With Heavy Rain' },
-    lightthunderstorm	: { Turkish: 'Hafif Fırtına', English: 'Light Thunderstorm' },
-    thunderstorm	: { Turkish: 'Fırtına', English: 'Thunderstorm' },
-    heavythunderstorm	: { Turkish: 'Şiddetli Fırtına', English: 'Heavy Thunderstorm' },
-    raggedthunderstorm	: { Turkish: 'Düzensiz Fırtına', English: 'Ragged Thunderstorm' },
-    thunderstormwithlightdrizzle	: { Turkish: 'Hafif Çiseleyen Fırtına', English: 'Thunderstorm With Light Drizzle' },
-    thunderstormwithdrizzle	: { Turkish: 'Çiseleyen Fırtına', English: 'Thunderstorm With Drizzle' },
-    thunderstormwithheavydrizzle	: { Turkish: 'Şiddetli Çiseleyen Fırtına', English: 'Thunderstorm With Heavy Drizzle' },
-    lightintensitydrizzle	: { Turkish: 'Hafif Yoğunlukta Çiseleme', English: 'Light Intensity Drizzle' },
-    drizzle	: { Turkish: 'Çiseleme', English: 'Drizzle' },
-    heavyintensitydrizzle	: { Turkish: 'Şiddetli Çiseleme', English: 'Heavy Intensity Drizzle	' },
-    lightintensitydrizzlerain	: { Turkish: 'Hafif Yoğunlukta Çiseleyen Yağmur', English: 'Light Intensity Drizzle Rain' },
-    drizzlerain	: { Turkish: 'Çiseleyen Yağmur', English: 'Drizzle Rain' },
-    heavyintensitydrizzlerain	: { Turkish: 'Şiddetli Çiseleyen Yağmur', English: 'Heavy Intensity Drizzle Rain' },
-    showerrainanddrizzle	: { Turkish: 'Duş Yağmuru ve Çiseleme', English: 'Shower Rain and Drizzle' },
-    heavyshowerrainanddrizzle	: { Turkish: 'Şiddetli Duş Yağmuru ve Çiseleme', English: 'Heavy Shower Rain and Drizzle' },
-    showerdrizzle	: { Turkish: 'Duş Çiselemesi', English: 'Shower Drizzle' },
-    lightrain	: { Turkish: 'Hafif Yağmur', English: 'Light Rain' },
-    moderaterain	: { Turkish: 'Ilımlı Yağmur', English: 'Moderate Rain' },
-    heavyintensityrain	: { Turkish: 'Şiddetli Yağmur', English: 'Heavy Intensity Rain' },
-    veryheavyrain	: { Turkish: 'Çok şiddetli yağmur', English: 'Very Heavy Rain' },
-    extremerain	: { Turkish: 'Aşırı şiddetli yağmur', English: 'Extreme Rain' },
-    freezingrain	: { Turkish: 'Dondurucu Yağmur', English: 'Freezing Rain' },
-    lightintensityshowerrain	: { Turkish: 'Hafif Yoğunlukta Duş Yağmuru', English: 'Light Intensity Shower Rain' },
-    showerrain	: { Turkish: 'Duş Yağmuru', English: 'Shower Rain' },
-    heavyintensityshowerrain	: { Turkish: 'Şiddetli Duş Yağmuru', English: 'Heavy Intensity Shower Rain' },
-    raggedshowerrain	: { Turkish: 'Düzensiz Duş Yağmuru', English: 'Ragged Shower Rain' },
-    lightsnow	: { Turkish: 'Hafif Kar', English: 'Light Snow' },
-    snow	: { Turkish: 'Kar', English: 'Snow' },
-    heavysnow	: { Turkish: 'Yoğun kar yağışı', English: 'Heavy Snow' },
-    sleet: { Turkish: 'Sulu kar', English: 'Sleet' },
-    lightshowersleet	: { Turkish: 'Karla Karışık Hafif Yağmur', English: 'Light Shower Sleet' },
-    showersleet	: { Turkish: 'Karla Karışık Yağmur', English: 'Shower Sleet' },
-    lightrainandsnow	: { Turkish: 'Karla Karışık Hafif Yağmur', English: 'Light Rain and Snow' },
-    rainandsnow	: { Turkish: 'Karla Karışık Yağmur', English: 'Rain and Snow' },
-    lightshowersnow	: { Turkish: 'Karla Karışık Hafif Yağmur', English: 'Light Shower Snow' },
-    showersnow	: { Turkish: 'Sulu kar', English: 'Shower Snow' },
-    heavyshowersnow	: { Turkish: 'Şiddetli Kar', English: 'Heavy Shower Snow' },
-    ash: { Turkish: 'Kül', English: 'Ash' },
-    clear: { Turkish: 'Açık Hava', English: 'Clear' },
-    clouds: { Turkish: 'Bulutlu', English: 'Clouds' },
-    rain: { Turkish: 'Yağmurlu', English: 'Rain' },
-    squall: { Turkish: 'Fırtına', English: 'Squall' },
-    mist: { Turkish: 'Sis', English: 'Mist' },
-    smoke: { Turkish: 'Sis', English: 'Smoke' },
-    haze: { Turkish: 'Pus', English: 'Haze' },
-    fog: { Turkish: 'Sis', English: 'Fog' },
-    sand: { Turkish: 'Kum', English: 'Sand' },
-    dust	: { Turkish: 'Toz', English: 'Dust' },
-    volcanicash	: { Turkish: 'Volkanik Kül', English: 'Volcanic ash' },
-    squalls	: { Turkish: 'Fırtına', English: 'Squalls' },
-    tornado	: { Turkish: 'Kasırga', English: 'Tornado' },
-    clearsky	: { Turkish: 'Açık hava', English: 'Clear sky' },
-    fewclouds	: { Turkish: 'Bulutlu', English: 'Few Clouds' },
-    scatteredclouds: { Turkish: 'Dağınık Bulutlu', English: 'Scattered Clouds'},
-    brokenclouds: { Turkish: 'Parçalı Bulutlu', English: 'Broken Clouds' },
-    overcastclouds	: { Turkish: 'Parçalı Bulutlu', English: 'Overcast Clouds'},
-    all:{Turkish:"Hepsi", English:"All"},
-    description:{Turkish:"Açıklama", English:"Description"},
-    create:{Turkish:"Oluştur",English:"Create"},
-    weathertitle:{Turkish:"Hava Durumu Başlığır",English:"Weather Title"},
-    weatherdesc:{Turkish:"Hava Durumu Açıklaması",English:"Weather Desc"},
-    update:{Turkish:"Güncelle", English:"Update"},
-    reminderAlertLevel:{Turkish:"Hatırlatıcı Uyarı Seviyesi",English:"Reminder Alert Level"}
+    Home: { Turkish: 'Anasayfa', English: 'Home',German:"Zuhause", French:"Maison", Spanish:"Maison",Chinese:"家" },
+Profile: { Turkish: 'Profil', English: 'Profile',German:"Profil", French:"Profil", Spanish:"Profil",Chinese:"轮廓" },
+FirstName: { Turkish: 'Ad', English: 'First Name',German:"Vorname", French:"Prénom", Spanish:"Prénom",Chinese:"名" },
+LastName: { Turkish: 'Soyad', English: 'Last Name',German:"Nachname", French:"Nom de famille", Spanish:"Nom de famille",Chinese:"姓" },
+YearOfBirth: { Turkish: 'Doğum yılı', English: 'Year of Birth',German:"Geburtsjahr", French:"Année de naissance", Spanish:"Année de naissance",Chinese:"出生年份" },
+Gender: { Turkish: 'Cinsiyet', English: 'Gender',German:"Geschlecht", French:"Le sexe", Spanish:"Le sexe",Chinese:"性别" },
+Male: { Turkish: 'Erkek', English: 'Male',German:"Männlich", French:"Homme", Spanish:"Homme",Chinese:"男性" },
+Female: { Turkish: 'Kadın', English: 'Female',German:"Weiblich", French:"Femme", Spanish:"Femme",Chinese:"女性" },
+MusicPlatform: { Turkish: 'Muzik Platformu', English: 'Music Platform',German:"Musik Plattform", French:"Plateforme musicale", Spanish:"Plateforme musicale",Chinese:"音乐平台" },
+language: { Turkish: 'Dil', English: 'language',German:"Sprache", French:"Langue", Spanish:"Langue",Chinese:"语言" },
+Turkish: { Turkish: 'Türkçe', English: 'Turkish',German:"Türkisch", French:"turc", Spanish:"turc",Chinese:"土耳其" },
+English: { Turkish: 'İngilizce', English: 'English',German:"Englisch", French:"Anglais", Spanish:"Anglais",Chinese:"英语" },
+German: { Turkish: 'Almanca', English: 'German',German:"Deutsch", French:"Allemand", Spanish:"Allemand",Chinese:"德语" },
+Spanish: { Turkish: 'İspanyolca', English: 'Spanish',German:"Spanisch", French:"Espagnole", Spanish:"Español",Chinese:"西班牙语" },
+French: { Turkish: 'Fransızca', English: 'French',German:"Französisch", French:"français", Spanish:"français",Chinese:"法语" },
+Chinese: { Turkish: 'Çince', English: 'Chinese',German:"Chinesisch", French:"Chinoise", Spanish:"China",Chinese:"中国人" },
+Save: { Turkish: 'Kaydet', English: 'Save',German:"Speichern", French:"sauvegarder", Spanish:"sauvegarder",Chinese:"保存" },
+Sunrise: { Turkish: 'Gün Batımı', English: 'Sunrise',German:"Sonnenaufgang", French:"lever du soleil", Spanish:"lever du soleil",Chinese:"日出" },
+Sunset: { Turkish: 'Gün Doğumu', English: 'Sunset',German:"Sonnenuntergang", French:"Le coucher du soleil", Spanish:"Le coucher du soleil",Chinese:"日落" },
+WindSpeed: { Turkish: 'Rüzgar Hızı', English: 'Wind Speed',German:"Windgeschwindigkeit", French:"Vitesse du vent", Spanish:"Vitesse du vent",Chinese:"风速" },
+Weather: { Turkish: 'Hava Durumu', English: 'Weather',German:"Wetter", French:"Temps", Spanish:"Temps",Chinese:"天气" },
+Reminder: {Turkish:"Hatırlatıcı", English: "Reminder",German:"Erinnerung", French:"Rappel", Spanish:"Rappel",Chinese:"提醒"},
+ReminderName: {Turkish:"Hatırlatıcı İsmi", English: "Reminder Name",German:"Erinnerungsname", French:"Nom du rappel", Spanish:"Nom du rappel",Chinese:"提醒名称"},
+City: { Turkish: 'Şehir', English: 'City',German:"Stadt", French:"Ville", Spanish:"Ville",Chinese:"城市" },
+thunderstormwithlightrain: { Turkish: 'Hafif Yağmurlu Fırtına', English: 'Thunderstorm With Light Rain' ,German:"Gewitter mit leichtem Regen", French:"Orage avec pluie légère", Spanish:"Orage avec pluie légère",Chinese:"有小雨的雷暴"},
+thunderstormwithrain	: { Turkish: 'Yağmurlu Fırtına', English: 'Thunderstorm With Rain',German:"Gewitter mit Regen", French:"Orage avec pluie", Spanish:"Orage avec pluie",Chinese:"有雨的雷暴" },
+thunderstormwithheavyrain	: { Turkish: 'Şiddetli Yağmurlu Fırtına', English: 'Thunderstorm With Heavy Rain',German:"Gewitter mit starkem Regen", French:"Orage avec de fortes pluies", Spanish:"Orage avec de fortes pluies",Chinese:"雷暴与大雨" },
+lightthunderstorm	: { Turkish: 'Hafif Fırtına', English: 'Light Thunderstorm',German:"Leichtes Gewitter", French:"Orage léger", Spanish:"Orage léger",Chinese:"轻微雷暴" },
+thunderstorm	: { Turkish: 'Fırtına', English: 'Thunderstorm',German:"Gewitter", French:"Orage", Spanish:"Orage",Chinese:"雷雨" },
+heavythunderstorm	: { Turkish: 'Şiddetli Fırtına', English: 'Heavy Thunderstorm',German:"Schweres Gewitter", French:"Orage violent", Spanish:"Orage violent",Chinese:"强雷暴" },
+raggedthunderstorm	: { Turkish: 'Düzensiz Fırtına', English: 'Ragged Thunderstorm',German:"Gewitter", French:"Orage déchiqueté", Spanish:"Orage déchiqueté",Chinese:"衣衫褴褛的雷暴" },
+thunderstormwithlightdrizzle	: { Turkish: 'Hafif Çiseleyen Fırtına', English: 'Thunderstorm With Light Drizzle',German:"Gewitter mit leichtem Nieselregen", French:"Orage avec bruine légère", Spanish:"Orage avec bruine légère",Chinese:"有小毛毛雨的雷暴" },
+thunderstormwithdrizzle	: { Turkish: 'Çiseleyen Fırtına', English: 'Thunderstorm With Drizzle',German:"Gewitter mit Nieselregen", French:"Orage avec bruine", Spanish:"Orage avec bruine",Chinese:"有毛毛雨的雷暴" },
+thunderstormwithheavydrizzle	: { Turkish: 'Şiddetli Çiseleyen Fırtına', English: 'Thunderstorm With Heavy Drizzle',German:"Gewitter mit starkem Nieselregen", French:"Orage avec forte bruine", Spanish:"Orage avec forte bruine",Chinese:"有大毛毛雨的雷暴" },
+lightintensitydrizzle	: { Turkish: 'Hafif Yoğunlukta Çiseleme', English: 'Light Intensity Drizzle',German:"Leichter Nieselregen", French:"Bruine d'intensité légère", Spanish:"Bruine d'intensité légère",Chinese:"轻度细雨" },
+drizzle	: { Turkish: 'Çiseleme', English: 'Drizzle',German:"Nieselregen", French:"Bruine", Spanish:"Bruine",Chinese:"细雨" },
+heavyintensitydrizzle	: { Turkish: 'Şiddetli Çiseleme', English: 'Heavy Intensity Drizzle',German:"Starker Nieselregen", French:"Bruine de forte intensité", Spanish:"Bruine de forte intensité",Chinese:"大强度毛毛雨" },
+lightintensitydrizzlerain	: { Turkish: 'Hafif Yoğunlukta Çiseleyen Yağmur', English: 'Light Intensity Drizzle Rain',German:"Leichter Nieselregen", French:"Intensité légère Bruine Pluie", Spanish:"Intensité légère Bruine Pluie",Chinese:"轻度细雨" },
+drizzlerain	: { Turkish: 'Çiseleyen Yağmur', English: 'Drizzle Rain',German:"Nieselregen", French:"Bruine Pluie", Spanish:"Bruine Pluie",Chinese:"细雨" },
+heavyintensitydrizzlerain	: { Turkish: 'Şiddetli Çiseleyen Yağmur', English: 'Heavy Intensity Drizzle Rain',German:"Starker Nieselregen", French:"Pluie de bruine de forte intensité", Spanish:"Pluie de bruine de forte intensité",Chinese:"大强度毛毛雨" },
+showerrainanddrizzle	: { Turkish: 'Duş Yağmuru ve Çiseleme', English: 'Shower Rain and Drizzle',German:"Regenschauer und Nieselregen", French:"Pluie et bruine", Spanish:"Pluie et bruine",Chinese:"阵雨和毛毛雨" },
+heavyshowerrainanddrizzle	: { Turkish: 'Şiddetli Duş Yağmuru ve Çiseleme', English: 'Heavy Shower Rain and Drizzle',German:"Starker Regenschauer und Nieselregen", French:"Forte averse de pluie et", Spanish:"Forte averse de pluie et",Chinese:"大阵雨和" },
+showerdrizzle	: { Turkish: 'Duş Çiselemesi', English: 'Shower Drizzle',German:"Dusche Nieselregen", French:"Bruine de douche", Spanish:"Bruine de douche",Chinese:"淋浴细雨" },
+lightrain	: { Turkish: 'Hafif Yağmur', English: 'Light Rain',German:"Leichter Regen", French:"Pluie légère", Spanish:"Pluie légère",Chinese:"小雨" },
+moderaterain	: { Turkish: 'Ilımlı Yağmur', English: 'Moderate Rain',German:"Mäßiger Regen", French:"Pluie modérée", Spanish:"Pluie modérée",Chinese:"中雨" },
+heavyintensityrain	: { Turkish: 'Şiddetli Yağmur', English: 'Heavy Intensity Rain',German:"Starker Regen", French:"Pluie de forte intensité", Spanish:"Pluie de forte intensité",Chinese:"强降雨" },
+veryheavyrain	: { Turkish: 'Çok şiddetli yağmur', English: 'Very Heavy Rain',German:"Sehr schwerer Regen", French:"Pluie très forte", Spanish:"Pluie très forte",Chinese:"非常大的雨" },
+extremerain	: { Turkish: 'Aşırı şiddetli yağmur', English: 'Extreme Rain',German:"Extremer Regen", French:"Pluie extrême", Spanish:"Pluie extrême",Chinese:"极端雨" },
+freezingrain	: { Turkish: 'Dondurucu Yağmur', English: 'Freezing Rain',German:"Gefrierender Regen", French:"Pluie verglaçante", Spanish:"Pluie verglaçante",Chinese:"冻雨" },
+lightintensityshowerrain	: { Turkish: 'Hafif Yoğunlukta Duş Yağmuru', English: 'Light Intensity Shower Rain',German:"Leichter Regenschauer", French:"Pluie de douche d'intensité lumineuse", Spanish:"Pluie de douche d'intensité lumineuse",Chinese:"小强度阵雨" },
+showerrain	: { Turkish: 'Duş Yağmuru', English: 'Shower Rain',German:"Dusche Regen", French:"Pluie de douche", Spanish:"Pluie de douche",Chinese:"阵雨" },
+heavyintensityshowerrain	: { Turkish: 'Şiddetli Duş Yağmuru', English: 'Heavy Intensity Shower Rain',German:"Starker Schauerregen", French:"Pluie de pluie de forte intensité", Spanish:"Pluie de pluie de forte intensité",Chinese:"强阵雨" },
+raggedshowerrain	: { Turkish: 'Düzensiz Duş Yağmuru', English: 'Ragged Shower Rain',German:"Gezackter Schauerregen", French:"Pluie de douche irrégulière", Spanish:"Pluie de douche irrégulière",Chinese:"衣衫褴褛的阵雨" },
+lightsnow	: { Turkish: 'Hafif Kar', English: 'Light Snow',German:"Leichter Schnee", French:"Neige légère", Spanish:"Neige légère",Chinese:"小雪" },
+snow	: { Turkish: 'Kar', English: 'Snow',German:"Schnee", French:"Neiger", Spanish:"Neiger",Chinese:"雪" },
+heavysnow	: { Turkish: 'Yoğun kar yağışı', English: 'Heavy Snow',German:"Starker Schneefall", French:"Beaucoup de neige", Spanish:"Beaucoup de neige",Chinese:"暴雪" },
+sleet: { Turkish: 'Sulu kar', English: 'Sleet',German:"Schneeregen", French:"Neige fondue", Spanish:"Neige fondue",Chinese:"霰" },
+lightshowersleet	: { Turkish: 'Karla Karışık Hafif Yağmur', English: 'Light Shower Sleet',German:"Leichter Regenschauer", French:"Légère pluie de grésil", Spanish:"Légère pluie de grésil",Chinese:"轻雨夹雪" },
+showersleet	: { Turkish: 'Karla Karışık Yağmur', English: 'Shower Sleet',German:"Regenschauer", French:"Douche grésil", Spanish:"Douche grésil",Chinese:"雨夹雪" },
+lightrainandsnow	: { Turkish: 'Karla Karışık Hafif Yağmur', English: 'Light Rain and Snow',German:"Leichter Regen und Schnee", French:"Pluie légère et neige", Spanish:"Pluie légère et neige",Chinese:"小雨和小雪" },
+rainandsnow	: { Turkish: 'Karla Karışık Yağmur', English: 'Rain and Snow',German:"Regen und Schnee", French:"Pluie et neige", Spanish:"Pluie et neige",Chinese:"雨雪" },
+lightshowersnow	: { Turkish: 'Karla Karışık Hafif Yağmur', English: 'Light Shower Snow',German:"Leichter Schauer Schnee", French:"Légère averse de neige", Spanish:"Légère averse de neige",Chinese:"小阵雨雪" },
+showersnow	: { Turkish: 'Sulu kar', English: 'Shower Snow',German:"Dusche Schnee", French:"Douche Neige", Spanish:"Douche Neige",Chinese:"阵雨雪" },
+heavyshowersnow	: { Turkish: 'Şiddetli Kar', English: 'Heavy Shower Snow',German:"Starker Schneeschauer", French:"Forte averse de neige", Spanish:"Forte averse de neige",Chinese:"大阵雨雪" },
+ash: { Turkish: 'Kül', English: 'Ash',German:"Asche", French:"Cendre", Spanish:"Cendre",Chinese:"灰" },
+clear: { Turkish: 'Açık Hava', English: 'Clear',German:"Klar", French:"Dégager", Spanish:"Dégager",Chinese:"清除" },
+clouds: { Turkish: 'Bulutlu', English: 'Clouds',German:"Wolken", French:"Des nuages", Spanish:"Des nuages",Chinese:"云" },
+rain: { Turkish: 'Yağmurlu', English: 'Rain',German:"Regen", French:"Pluie", Spanish:"Pluie",Chinese:"雨" },
+squall: { Turkish: 'Fırtına', English: 'Squall',German:"Bö", French:"Bourrasque", Spanish:"Bourrasque",Chinese:"飑" },
+mist: { Turkish: 'Sis', English: 'Mist',German:"Nebel", French:"Brume", Spanish:"Brume",Chinese:"薄雾" },
+smoke: { Turkish: 'Sis', English: 'Smoke',German:"Nebel", French:"Fumée", Spanish:"Fumée",Chinese:"抽烟" },
+haze: { Turkish: 'Pus', English: 'Haze',German:"Dunst", French:"Brume", Spanish:"Brume",Chinese:"阴霾" },
+fog: { Turkish: 'Sis', English: 'Fog' ,German:"Nebel", French:"Brouillard", Spanish:"Brouillard",Chinese:"多雾路段"},
+sand: { Turkish: 'Kum', English: 'Sand',German:"Sand", French:"Sable", Spanish:"Sable",Chinese:"沙" },
+dust	: { Turkish: 'Toz', English: 'Dust',German:"Staub", French:"Poussière", Spanish:"Poussière",Chinese:"灰尘" },
+volcanicash	: { Turkish: 'Volkanik Kül', English: 'Volcanic ash',German:"Vulkanasche", French:"Cendre volcanique", Spanish:"Cendre volcanique",Chinese:"火山灰" },
+squalls	: { Turkish: 'Fırtına', English: 'Squalls',German:"Sturmböen", French:"Grains", Spanish:"Grains",Chinese:"暴风雨" },
+tornado	: { Turkish: 'Kasırga', English: 'Tornado',German:"Tornado", French:"Tornade", Spanish:"Tornade",Chinese:"龙卷风" },
+clearsky	: { Turkish: 'Açık hava', English: 'Clear sky',German:"Klarer Himmel", French:"Ciel clair", Spanish:"Ciel clair",Chinese:"晴朗的天空" },
+fewclouds	: { Turkish: 'Bulutlu', English: 'Few Clouds',German:"Ein paar Wolken", French:"Quelques nuages", Spanish:"Quelques nuages",Chinese:"几朵云" },
+scatteredclouds: { Turkish: 'Dağınık Bulutlu', English: 'Scattered Clouds',German:"Aufgelockerte Bewölkung", French:"Nuages dispersés", Spanish:"Nuages dispersés",Chinese:"疏云，零星散落的云朵"},
+brokenclouds: { Turkish: 'Parçalı Bulutlu', English: 'Broken Clouds',German:"Aufgelockert bewölkt", French:"Nuages brisés", Spanish:"Nuages brisés",Chinese:"碎云" },
+overcastclouds	: { Turkish: 'Parçalı Bulutlu', English: 'Overcast Clouds',German:"Bedeckte Wolken", French:"Nuages couverts", Spanish:"Nuages couverts",Chinese:"阴云密布"},
+all:{Turkish:"Hepsi", English:"All",German:"Alle", French:"Tous", Spanish:"Tous",Chinese:"全部"},
+description:{Turkish:"Açıklama", English:"Description",German:"Beschreibung", French:"La description", Spanish:"La description",Chinese:"描述"},
+create:{Turkish:"Oluştur",English:"Create",German:"Schaffen", French:"Créer", Spanish:"Créer",Chinese:"创建"},
+weathertitle:{Turkish:"Hava Durumu Başlığı",English:"Weather Title",German:"Titel Wetter", French:"Titre météo", Spanish:"Titre météo",Chinese:"天气标题"},
+weatherdesc:{Turkish:"Hava Durumu Açıklaması",English:"Weather Desc",German:"Wetterbesch", French:"Description météo", Spanish:"Description météo",Chinese:"天气描述"},
+update:{Turkish:"Güncelle", English:"Update",German:"Aktualisieren", French:"Mettre à jour", Spanish:"Mettre à jour",Chinese:"更新"},
+reminderAlertLevel:{Turkish:"Hatırlatıcı Uyarı Seviyesi",English:"Reminder Alert Level",German:"Erinnerungsalarmstufe", French:"Niveau d'alerte de rappel", Spanish:"Niveau d'alerte de rappel",Chinese:"提醒警报级别"},
+playlistName:{Turkish:"Oynatma Listesi Adı",English:"Playlist Name",German:"Playlist-Name", French:"Nom de la liste de lecture", Spanish:"Nom de la liste de lecture",Chinese:"播放列表名称"},
+categories:{Turkish:"Kategoriler",English:"Categories",German:"Kategorien", French:"Catégories", Spanish:"Catégories",Chinese:"类别"},
+songCount:{Turkish:"Şarkı Sayısı",English:"Number of Songs",German:"Anzahl der Lieder", French:"Nombre de chansons", Spanish:"Nombre de chansons",Chinese:"歌曲数"},
+likes:{Turkish:"Beğenme Sayısı",English:"likes",German:"likes", French:"aime", Spanish:"aime",Chinese:"喜欢"},
+blue:{Turkish:"Mavi",English:"blue",German:"Blau", French:"bleu", Spanish:"bleu",Chinese:"蓝色"},
+green:{Turkish:"Yeşil",English:"green",German:"Grün", French:"vert", Spanish:"vert",Chinese:"绿色"},
+yellow:{Turkish:"Sarı",English:"yellow",German:"Gelb", French:"jaune", Spanish:"jaune",Chinese:"黄色的"},
+red:{Turkish:"Kırmızı",English:"red",German:"rot", French:"rouge", Spanish:"rouge",Chinese:"红色的"},
+black:{Turkish:"Siyah",English:"black",German:"Schwarz", French:"le noir", Spanish:"le noir",Chinese:"黑色的"},
+name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chinese:"姓名"}
   };
   modal="false";
   createModal="false";
@@ -140,6 +155,7 @@ export class HomePage {
   appleMusicPlaylists=[];
   playlists={};
   playlistsLength:any;
+  playlistsImage:number;
   constructor(
     private db: DatabaseService,
     public platform: Platform,
@@ -147,7 +163,8 @@ export class HomePage {
     private geoLocation: Geolocation,
     private weather: WeatherService,
     private androidPermissions: AndroidPermissions,
-    private diagnostic: Diagnostic) 
+    private diagnostic: Diagnostic,
+    private locationAccuracy: LocationAccuracy) 
   {
     platform.ready().then(() => 
     {
@@ -173,6 +190,7 @@ export class HomePage {
       });
     }).catch((e)=>{this.db.sendMsg(e);});
   }
+
   openCustom() {
     this.menu.enable(true, 'custom');
     this.menu.open('custom');
@@ -213,6 +231,7 @@ export class HomePage {
           this.musicPlatform,
           this.language
         );
+        this.getLocation();
       }
     }
   }
@@ -231,7 +250,10 @@ export class HomePage {
       if(result.hasPermission==false)
       {
         this.db.sendMsg("Please accept location permissions or you can entry by city name");
-        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION);    
+        this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(()=>
+        {
+          this.getLocation();
+        });    
         this.db.sendMsg("Please accept location permissions or you can entry by city name");
       }
       else{
@@ -239,7 +261,18 @@ export class HomePage {
         {
           if(result==false)
           {
-            this.db.sendMsg("Please enable your location");
+            this.locationAccuracy.canRequest().then((canRequest: boolean) => {
+
+            if(canRequest) {
+              
+              this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY).then(
+                () => this.getLocation(),
+                error =>this.getLocation()
+              );
+            }
+    
+            });
+
           }
           else
           {
@@ -302,15 +335,21 @@ export class HomePage {
 
                   this.weather.getPlaylist(this.weatherMain).then((result)=>
                   {
-                    
-
-                    
                     this.spotifyPlaylists=result["spotifyPlaylist"];
                     this.youtubeMusicPlaylists=result["youtubeMusicPlaylist"];
                     this.appleMusicPlaylists=result["appleMusicPlaylist"];
+                    this.playlistsLength=this.spotifyPlaylists.length;
+                    if (this.youtubeMusicPlaylists.length>this.playlistsLength)
+                    {
+                      this.playlistsLength=this.youtubeMusicPlaylists.length;
+                    }
+                    if (this.appleMusicPlaylists.length>this.playlistsLength)
+                    {
+                      this.playlistsLength=this.appleMusicPlaylists.length;
+                    }
 
-                    this.db.sendMsg(JSON.stringify(this.spotifyPlaylists));
-                    
+                    this.playlistsImage = Math.floor(Math.random() * 4)+1;
+                    this.playlistsLength = Array(this.spotifyPlaylists.length).fill(this.spotifyPlaylists.length).map((x,i)=>i);
                   });
 
                   this.db.getAlert(this.weatherMain.toLowerCase(),this.weatherDesc.toLowerCase()).then((result) => 
@@ -393,6 +432,10 @@ export class HomePage {
     this.db.getReminder().then((result) => 
     {
       this.reminder=result;
+    });
+    this.db.getAlert(this.weatherMain.toLowerCase(),this.weatherDesc.toLowerCase()).then((result) => 
+    {
+      this.alert=result;
     });
     this.reminderIsActive=undefined;
     this.reminderName=undefined;
@@ -735,22 +778,6 @@ export class HomePage {
       this.reminderWeatherDesc=reminderWeatherDesc;
     }
     this.db.sendMsg(reminderWeatherDesc);
-  }
-  deneme()
-  {
-    this.weather.getPlaylist(this.weatherMain).then((result)=>
-    {
-      /*
-      this.playlists.push({"spotify":result["spotify"]});
-      this.playlists.push({"youtubeMusic":result["youtubeMusic"]});
-      this.playlists.push({"appleMusic":result["appleMusic"]});
-      */
-
-      this.playlists={"spotify":result["spotify"],"youtubeMusic":result["youtubeMusic"],"appleMusic":result["appleMusic"]};
-
-      this.db.sendMsg(JSON.stringify(this.playlists));
-      
-    });
   }
 }
   
