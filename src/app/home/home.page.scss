@@ -56,12 +56,13 @@ ion-title {
   color: white;
 }
 .headerbg {
-  --background: #363636;
+  --background: #222021;
 }
 
 ion-icon {
   font-size: 24px;
 }
+
 .menucontent {
   --background: #363636;
 }
@@ -70,12 +71,13 @@ ion-icon {
   left: 10px;
 }
 .menutext {
-  font-family: serif;
+  font-family: serif;  
   position: absolute;
   left: 40px;
 }
 .menuButton {
   --background: none;
+  --box-shadow:"none";
 }
 .ellipsis {
   text-overflow: ellipsis;
@@ -98,6 +100,25 @@ ion-icon {
   .refresherCard
   {
     --background: none;
-     
     
   } 
+  .weatherBackground
+  {
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+  }
+  .weatherTitle
+  {
+    text-align: center; font-size: 48px; color:white; padding-top: 50px; opacity: 1.0;
+  }
+  .weatherDesc
+  {
+    font-size: 36px;color:white;text-align: center; opacity: 1.0;
+  }
+  .weatherStatus
+  {
+    font-family: 'Orbitron';
+    color:white;
+  }
