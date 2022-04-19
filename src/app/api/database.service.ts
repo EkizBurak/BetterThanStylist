@@ -126,7 +126,7 @@ export class DatabaseService {
       `update reminder set reminderName = '${reminderUpdateName}', reminderAlertLevel='${reminderAlertLevel}',weatherTitle= '${weatherTitle}', weatherDesc= '${weatherDesc}', weatherTextArea= '${weatherTextArea}' where reminderName='${reminderName}'`
     );
 
-    this.sendMsg('User update successfully');
+    this.sendMsg('Reminder Update Successfully');
   }
   getAlert(weatherTitle, weatherDesc)
   {

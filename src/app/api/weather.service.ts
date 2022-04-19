@@ -43,4 +43,13 @@ export class WeatherService {
       return JSON.parse(eval(x));
     }).catch((e)=>{this.db.sendMsg(JSON.stringify(e));})
   }
+  getClothes(weatherMain,weatherTemperature)
+  {
+    return this.http.post("https://burakekiz.xyz/clothes.php",{weather:weatherMain.toLowerCase(),temperature:weatherTemperature},{}).then((data)=>
+    {
+      let x = data.data;
+      x=JSON.stringify(x).replace(/\\/g, "").replace('"',"'").replace(/.$/,"'");
+      return JSON.parse(eval(x));
+    }).catch((e)=>{this.db.sendMsg(JSON.stringify(e));})
+  }
 }
