@@ -8,6 +8,7 @@ import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
 import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 @Component({
   selector: 'app-home',
@@ -156,6 +157,14 @@ name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chi
   playlists={};
   playlistsLength:any;
   playlistsImage:number;
+  clothesTopPath:any;
+  clothesTopNumber:any;
+  clothesBottomPath:any;
+  clothesBottomNumber:any;
+  clothesTopHeight:any;
+  clothesBottomHeight:any;
+  clothesTopColor:any;
+  clothesBottomColor:any;
   constructor(
     private db: DatabaseService,
     public platform: Platform,
@@ -164,7 +173,8 @@ name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chi
     private weather: WeatherService,
     private androidPermissions: AndroidPermissions,
     private diagnostic: Diagnostic,
-    private locationAccuracy: LocationAccuracy) 
+    private locationAccuracy: LocationAccuracy,
+    private file: File) 
   {
     platform.ready().then(() => 
     {
@@ -254,6 +264,7 @@ name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chi
         {
           this.getLocation();
         });    
+        
         this.db.sendMsg("Please accept location permissions or you can entry by city name");
       }
       else{
@@ -369,7 +380,60 @@ name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chi
     },(err)=>{this.db.sendMsg("Please accept location permissions or you can entry by city name");})
     
   }
+  getClothes()
+  {
+    this.weather.getClothes(this.weatherMain,this.weatherTemp).then((result)=>
+    {
+
+     this.clothesTopColor=result["colorCode"][Math.floor(Math.random() * result["colorCode"].length)];
+     this.clothesBottomColor=result["colorCode"][Math.floor(Math.random() * result["colorCode"].length)];
+
+     //this.db.sendMsg(result['clothes'][this.gender+"top"][Math.floor(Math.random() * result['clothes'][this.gender+"top"].length)]);
+     this.clothesTopPath='assets/clothes/'+this.gender+'/'+result['clothes'][this.gender+"top"][Math.floor(Math.random() * result['clothes'][this.gender+"top"].length)] +'/';
+     this.clothesBottomPath='assets/clothes/'+this.gender+'/'+result['clothes'][this.gender+"bottom"][Math.floor(Math.random() * result['clothes'][this.gender+"bottom"].length)] +'/';
+     this.clothesTopHeight=45;
+     this.clothesBottomHeight=45;
+     if(this.clothesTopPath.includes("dress")==true)
+      {
+        this.clothesTopHeight=97.5;
+        this.clothesBottomHeight=0;
+        this.clothesBottomPath="";
+      }
+     this.file.listDir(this.file.applicationDirectory, 'www/'+this.clothesTopPath)
+     .then(items =>{
+      this.clothesTopNumber =Math.floor(Math.random() * items.length)+1;
+        
+       //this.clothescount = Array(items.length).fill(items.length).map((x,i)=>i+1);
+       this.clothesTopPath=this.clothesTopPath.replaceAll("/","\\");
+     });
+     this.file.listDir(this.file.applicationDirectory, 'www/'+this.clothesBottomPath)
+     .then(items =>{
+      this.clothesBottomNumber =Math.floor(Math.random() * items.length)+1;
+       //this.clothescount = Array(items.length).fill(items.length).map((x,i)=>i+1);
+       this.clothesBottomPath=this.clothesBottomPath.replaceAll("/","\\");
+     });
+    });
+    /*
+    this.clothespath='assets/clothes/'+this.gender+'/pantalon/';
+    this.file.listDir(this.file.applicationDirectory, 'www/'+this.clothespath)
+    .then(items =>{
+      this.db.sendMsg(Math.floor(Math.random() * items.length)+1);
+      this.clothescount = Array(items.length).fill(items.length).map((x,i)=>i+1);
+      this.clothespath=this.clothespath.replaceAll("/","\\");
+    })
+    .catch(err => {
+    this.db.sendMsg(JSON.stringify(err));
+    });
+   */
   
+  }
+  refreshGetClothes(event)
+  {
+    this.getClothes();
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
+  }
   doRefresh(event) {
     this.getLocation();
     setTimeout(() => {

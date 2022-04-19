@@ -195,9 +195,9 @@
   </ion-modal>
 </ion-header>
 
-<ion-menu side="start" menuId="custom" contentId="main" class="menu" *ngIf="userCount!=0">
-  <ion-header> 
-    <ion-toolbar>
+<ion-menu side="start" menuId="custom" contentId="main" class="menu" *ngIf="userCount!=0" >
+  <ion-header > 
+    <ion-toolbar style="--background: #222021;">
       <ion-img id="headerLogo" src="assets\logo.png" style="width: 60px; height: 60px; float: left;"></ion-img>
       <h2 style="font-family: 'Orbitron'; color: #ffffff; float: left;" >Better Than Stylist</h2>
       <ion-buttons slot="end" (click)="closeMenu()">
@@ -222,76 +222,117 @@
             <ion-refresher-content>
             </ion-refresher-content>
           </ion-refresher>  
-          <div *ngIf="weatherDesc" class="weatherBackground" style="background-image: url('assets/images/playlistsBackGround/{{playlistsImage}}.gif');">
-            <ion-slides pager="true" style="padding: 0px; margin: 0px; padding-bottom: 25px;">
-              <ion-slide style="padding: 0px; margin: 0px; " *ngFor='let i of playlistsLength'>
-                <ion-card style="width: 100%; padding: 0px; margin: 0px; --background:none; box-shadow: none !important;" >
-                  <div *ngIf="musicPlatform.includes('Spotify') && spotifyPlaylists.length>i">
-                    <ion-item lines="none" class="refresherCard">
-                      <a href="{{spotifyPlaylists[i].playlistLink}}"><ion-icon src="assets\icon\spotify.svg" slot="start" style="width: 40px; height: 40px;"></ion-icon></a>
-                      <ion-label class="ellipsis" style="text-indent: 20px;"><a style="color: white; text-decoration: none; font-weight: bold;" href="{{spotifyPlaylists[i].playlistLink}}">{{spotifyPlaylists[i].playlistLink}}</a></ion-label>
-                    </ion-item>
-        
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["playlistName"][language]}}: {{spotifyPlaylists[i].playlistName}}</ion-label>
-                    </ion-item>
-                    
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label style="text-indent: 20px; padding-left: 10px; font-weight: bold;">{{languages["categories"][language]}}: {{spotifyPlaylists[i].playlistCategories}}</ion-label>
-                    </ion-item>
-        
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["songCount"][language]}}: {{spotifyPlaylists[i].playlistSongCount}}</ion-label>
-                    </ion-item>
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["likes"][language]}}: {{spotifyPlaylists[i].playlistLikes}}</ion-label>
-                    </ion-item>
-                  </div>
-                  
-                  <div *ngIf="musicPlatform.includes('YoutubeMusic') && youtubeMusicPlaylists.length>i">
-                    
-                    <ion-item lines="none" class="refresherCard">
-                      <a href="{{youtubeMusicPlaylists[i].playlistLink}}"><ion-icon src="assets\icon\youtubeMusic.svg" slot="start" style="width: 40px; height: 40px;"></ion-icon></a>
-                      <ion-label class="ellipsis" style="text-indent: 20px;"><a style="color: white; font-weight: bold; text-decoration: none;" href="{{youtubeMusicPlaylists[i].playlistLink}}">{{youtubeMusicPlaylists[i].playlistLink}}</a></ion-label>
-                    </ion-item>
-        
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["playlistName"][language]}}: {{youtubeMusicPlaylists[i].playlistName}}</ion-label>
-                    </ion-item>
-                    
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label style="text-indent: 20px; padding-left: 10px; font-weight: bold;">{{languages["categories"][language]}}: {{youtubeMusicPlaylists[i].playlistCategories}}</ion-label>
-                    </ion-item>
-        
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["songCount"][language]}}: {{youtubeMusicPlaylists[i].playlistSongCount}}</ion-label>
-                    </ion-item>
-                  </div>
-  
-                  <div *ngIf="musicPlatform.includes('AppleMusic') && appleMusicPlaylists.length>i">
-                    <ion-item lines="none" class="refresherCard">
-                      <a href="{{appleMusicPlaylists[i].playlistLink}}"><ion-icon src="assets\icon\appleMusic.svg" slot="start" style="width: 40px; height: 40px;"></ion-icon></a>
-                      <ion-label class="ellipsis" style="text-indent: 20px;"><a style="color: white; text-decoration: none; font-weight: bold;" href="{{appleMusicPlaylists[i].playlistLink}}">{{appleMusicPlaylists[i].playlistLink}}</a></ion-label>
-                    </ion-item>
-        
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["playlistName"][language]}}: {{appleMusicPlaylists[i].playlistName}}</ion-label>
-                    </ion-item>
-                    
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label style="text-indent: 20px; padding-left: 10px; font-weight: bold;">{{languages["categories"][language]}}: {{appleMusicPlaylists[i].playlistCategories}}</ion-label>
-                    </ion-item>
-        
-                    <ion-item lines="none" class="refresherCard">
-                      <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["songCount"][language]}}: {{appleMusicPlaylists[i].playlistSongCount}}</ion-label>
-                    </ion-item>
-                  </div>
-                </ion-card>
-              </ion-slide>
-            </ion-slides>
-            </div>
+          <ion-slides pager="true" *ngIf="weatherDesc">
+            <ion-slide style="padding: 0px; margin: 0px;" *ngFor='let i of playlistsLength'>
+              
+                <ion-content>
+                  <div class="weatherBackground" style="position: absolute;background-image: url('assets/images/playlistsBackGround/{{playlistsImage}}.gif');">
+                  <ion-card style="width: 100%; --background:none; box-shadow: none !important; padding-top: 30px">
+                    <div *ngIf="musicPlatform.includes('Spotify') && spotifyPlaylists.length>i">
+                      <ion-item lines="none" class="refresherCard">
+                        <a href="{{spotifyPlaylists[i].playlistLink}}"><ion-icon src="assets\icon\spotify.svg" slot="start" style="width: 40px; height: 40px;"></ion-icon></a>
+                        <ion-label class="ellipsis" style="text-indent: 20px;"><a style="color: white; text-decoration: none; font-weight: bold;" href="{{spotifyPlaylists[i].playlistLink}}">{{spotifyPlaylists[i].playlistLink}}</a></ion-label>
+                      </ion-item>
+            
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["playlistName"][language]}}: {{spotifyPlaylists[i].playlistName}}</ion-label>
+                      </ion-item>
+                      
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label style="text-indent: 20px; padding-left: 10px; font-weight: bold;">{{languages["categories"][language]}}: {{spotifyPlaylists[i].playlistCategories}}</ion-label>
+                      </ion-item>
+          
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["songCount"][language]}}: {{spotifyPlaylists[i].playlistSongCount}}</ion-label>
+                      </ion-item>
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["likes"][language]}}: {{spotifyPlaylists[i].playlistLikes}}</ion-label>
+                      </ion-item>
+                    </div>
+                
+                    <div *ngIf="musicPlatform.includes('YoutubeMusic') && youtubeMusicPlaylists.length>i">
+                      
+                      <ion-item lines="none" class="refresherCard">
+                        <a href="{{youtubeMusicPlaylists[i].playlistLink}}"><ion-icon src="assets\icon\youtubeMusic.svg" slot="start" style="width: 40px; height: 40px;"></ion-icon></a>
+                        <ion-label class="ellipsis" style="text-indent: 20px;"><a style="color: white; font-weight: bold; text-decoration: none;" href="{{youtubeMusicPlaylists[i].playlistLink}}">{{youtubeMusicPlaylists[i].playlistLink}}</a></ion-label>
+                      </ion-item>
+          
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["playlistName"][language]}}: {{youtubeMusicPlaylists[i].playlistName}}</ion-label>
+                      </ion-item>
+                      
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label style="text-indent: 20px; padding-left: 10px; font-weight: bold;">{{languages["categories"][language]}}: {{youtubeMusicPlaylists[i].playlistCategories}}</ion-label>
+                      </ion-item>
+          
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["songCount"][language]}}: {{youtubeMusicPlaylists[i].playlistSongCount}}</ion-label>
+                      </ion-item>
+                    </div>
+
+                    <div *ngIf="musicPlatform.includes('AppleMusic') && appleMusicPlaylists.length>i">
+                      <ion-item lines="none" class="refresherCard">
+                        <a href="{{appleMusicPlaylists[i].playlistLink}}"><ion-icon src="assets\icon\appleMusic.svg" slot="start" style="width: 40px; height: 40px;"></ion-icon></a>
+                        <ion-label class="ellipsis" style="text-indent: 20px;"><a style="color: white; text-decoration: none; font-weight: bold;" href="{{appleMusicPlaylists[i].playlistLink}}">{{appleMusicPlaylists[i].playlistLink}}</a></ion-label>
+                      </ion-item>
+          
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["playlistName"][language]}}: {{appleMusicPlaylists[i].playlistName}}</ion-label>
+                      </ion-item>
+                      
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label style="text-indent: 20px; padding-left: 10px; font-weight: bold;">{{languages["categories"][language]}}: {{appleMusicPlaylists[i].playlistCategories}}</ion-label>
+                      </ion-item>
+          
+                      <ion-item lines="none" class="refresherCard">
+                        <ion-label class="ellipsis" style="text-indent: 20px; font-weight: bold;">{{languages["songCount"][language]}}: {{appleMusicPlaylists[i].playlistSongCount}}</ion-label>
+                      </ion-item>
+                    </div>
+                  </ion-card>
+                </div>
+                </ion-content>
+              
+            </ion-slide>
+          </ion-slides>
         </ion-content>
       </ion-modal>
+
+    <ion-button expand="full" class="menuButton" id="trigger-clothes">
+      <ion-icon src="assets\icon\playlist.svg" class="menuicon"></ion-icon>
+      <ion-label class="menutext"
+        >Clothes</ion-label>
+    </ion-button>
+
+    <ion-modal trigger="trigger-clothes" (ionModalWillPresent)="getClothes()">
+      <ion-content [fullscreen]="true" id="main" *ngIf="userCount!=0">
+        <ion-refresher slot="fixed" (ionRefresh)="refreshGetClothes($event)">
+          <ion-refresher-content>
+          </ion-refresher-content>
+        </ion-refresher>  
+
+        <!--<ion-icon src="assets\clothes\aksesuar\3.svg" style="color:red; width: 100%; height: 20%;margin: 0; padding: 0;"></ion-icon>-->
+        
+        <ion-icon  src="{{clothesTopPath}}{{clothesTopNumber}}.svg" style="color:{{clothesTopColor}}; width: 100%; height: {{clothesTopHeight}}%;margin-top: 2.5%;"></ion-icon>
+        <ion-icon src="{{clothesBottomPath}}{{clothesBottomNumber}}.svg" style="color:{{clothesBottomColor}}	; width: 80%; height: {{clothesBottomHeight}}%;margin-left:10%;margin-top: 2.5%;"></ion-icon>
+
+        <!--<ion-icon src="assets\clothes\aksesuar\31.svg" style="color:red; width: 100%; height: 10%;margin: 0; padding: 0;"></ion-icon>-->
+        <!--
+        <div *ngFor="let i of clothescount" style="width: 100%; height: 100%">
+          {{clothespath}}{{i}}.svg
+          <ion-icon src="{{clothespath}}{{i}}.svg" style="color:red; width: 100%; height: 100%;margin: 0; padding: 0;"></ion-icon>
+        </div>
+        -->
+        <!--
+        <ion-icon src="assets\clothes\deneme.svg" style="color:red; width: 100%; height: 100%;"></ion-icon>
+        <ion-icon src="assets\clothes\tshirt3.svg" style="color:red; width: 100%; height: 100%;"></ion-icon>
+        <ion-icon src="assets\clothes\Varlik4.svg" style="color:red; width: 100%; height: 100%;"></ion-icon>
+        <ion-icon src="assets\clothes\tshirt2.svg" style="color:red; width: 100%; height: 100%;"></ion-icon>
+        <ion-icon src="assets\clothes\6432979141582094053.svg" style="color:red;width: 100%; height: 100%; "></ion-icon>
+        <ion-icon src="assets\clothes\noun-workout-clothes-4145016.svg" style="color:red;width: 100%; height: 100%; "></ion-icon>
+        <ion-icon src="assets\clothes\noun-workout-clothes-41450162.svg" style="color:red;width: 100%; height: 100%; "></ion-icon>
+          -->
+      </ion-content>
+    </ion-modal>
 
     <ion-button expand="full" class="menuButton" id="trigger-reminder">
       <ion-icon src="assets\icon\notifications.svg" class="menuicon"></ion-icon>
@@ -848,8 +889,6 @@
         </ion-list>
       </ng-template>
     </ion-modal>
-
-
   </ion-content>
 </ion-menu>
 
@@ -974,4 +1013,3 @@
   </div>
 
 </ion-content>
-
