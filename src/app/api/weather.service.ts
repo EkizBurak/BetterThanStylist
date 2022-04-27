@@ -36,7 +36,7 @@ export class WeatherService {
     }).catch((e)=>{this.db.sendMsg(JSON.stringify(e));})
     */
 
-    return this.http.post("https://burakekiz.xyz/BetterThanStylist.php",{weather:weatherMain.toLowerCase()},{}).then((data)=>
+    return this.http.post("https://betterthanstylist.online/BetterThanStylist.php",{weather:weatherMain.toLowerCase()},{}).then((data)=>
     {
       let x = data.data;
       x=JSON.stringify(x).replace(/\\/g, "").replace('"',"'").replace(/.$/,"'");
@@ -45,7 +45,7 @@ export class WeatherService {
   }
   getClothes(weatherMain,weatherTemperature)
   {
-    return this.http.post("https://burakekiz.xyz/clothes.php",{weather:weatherMain.toLowerCase(),temperature:weatherTemperature},{}).then((data)=>
+    return this.http.post("https://betterthanstylist.online/clothes.php",{weather:weatherMain.toLowerCase(),temperature:weatherTemperature},{}).then((data)=>
     {
       let x = data.data;
       x=JSON.stringify(x).replace(/\\/g, "").replace('"',"'").replace(/.$/,"'");

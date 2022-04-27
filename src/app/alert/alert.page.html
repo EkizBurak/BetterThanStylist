@@ -1,0 +1,18 @@
+<ion-content [fullscreen]="true">
+  <ion-slides pager="true">
+    <ion-slide *ngFor="let remind of alert">
+      <div class="weatherBackground" style="background-image: url('assets/images/alert/{{remind.reminderAlertLevel}}.gif');">    
+      <ion-card mode="ios" class="ioncard">
+        <ion-card-header class="ioncardheader" >
+          <ion-card-title class="ellipsis">{{remind.reminderName}}</ion-card-title>
+          <ion-card-subtitle class="ellipsis">{{remind.weatherTitle}}</ion-card-subtitle>
+          <ion-card-subtitle class="ellipsis">{{remind.weatherDesc}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content class="alertContent">
+          {{remind.weatherTextArea}}
+        </ion-card-content>
+      </ion-card>
+    </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

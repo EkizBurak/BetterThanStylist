@@ -1,0 +1,126 @@
+ion-slides {
+    height: 100%;
+  }
+  ion-slide {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 150px;
+  }
+  h1 {
+    margin-top: 70px;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: white;
+  }
+  h4 {
+    padding-left: 10px;
+    padding-right: 10px;
+    position: absolute;
+    margin-top: 150px;
+    text-align: center;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  
+  ion-title {
+    text-align: center;
+  }
+  .termsAndConditions {
+    font-size: small;
+    margin-left: 25px;
+    padding-right: 15px;
+  }
+  .termsAndConditionsCheckBox {
+    position: absolute;
+  }
+  .termsAndConditionsText {
+    padding: 20px;
+  }
+  
+  #headerLogo {
+    width: 175px;
+    padding: 10px;
+  }
+  .badge-one {
+    --color: white;
+    position: absolute;
+    top: 0;
+    right: -3px;
+    z-index: 1;
+    font-size: 8px;
+  }
+  
+  .smallicon {
+    color: white;
+  }
+  .headerbg {
+    --background: #222021;
+  }
+  
+  ion-icon {
+    font-size: 24px;
+  }
+  
+  .menucontent {
+    --background: #363636;
+  }
+  .menuicon {
+    position: absolute;
+    left: 10px;
+  }
+  .menutext {
+    font-family: serif;  
+    position: absolute;
+    left: 40px;
+  }
+  .menuButton {
+    --background: none;
+    --box-shadow:"none";
+  }
+  .ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    }
+    .alertContent
+    {
+  
+     margin: 0px;
+     padding: 0px;
+     padding-bottom:30px ;
+     padding-left: 10px;
+     font-size: 24px;
+     text-align: left;
+    }
+    .refresherCard
+    {
+      --background: none;
+      
+    } 
+    .weatherBackground
+    {
+      width: 100%;
+      height: auto;
+      min-height: 100%;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+    }
+    .weatherTitle
+    {
+      text-align: center; font-size: 48px; color:white; padding-top: 80px; opacity: 1.0;
+    }
+    .weatherDesc
+    {
+      font-size: 36px;color:white;text-align: center; opacity: 1.0;
+    }
+    .weatherStatus
+    {
+      font-family: 'Orbitron';
+      color:white;
+    }
+  

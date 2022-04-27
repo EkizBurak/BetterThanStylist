@@ -1,0 +1,411 @@
+
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="danger" id="trigger-createReminder" (click)="openCreateReminder()">
+      <ion-icon src="assets\icon\add.svg" size="large"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <div style="padding-top: 60px;"></div>
+  <ion-item *ngFor="let remind of reminder">
+    <ion-toggle checked="{{remind.isActive}}" style="margin-top: 7px;" (click)="deactiveReminder(remind.reminderName,remind.isActive)"></ion-toggle>            
+    <ion-label (click)="openModal(remind.isActive,remind.reminderName,remind.reminderAlertLevel,remind.weatherTitle,remind.weatherDesc, remind.weatherTextArea)">
+      <h2>Name: {{remind.reminderName}}</h2>
+      <p>{{languages["weathertitle"][language]}}: {{remind.weatherTitle}}</p>
+      <p>{{languages["weatherdesc"][language]}}: {{remind.weatherDesc}}</p>
+    </ion-label>
+    <ion-icon src="/assets/icon/trash.svg" style="color: red; width: 30px; height: 30px;" (click)="deleteReminder(remind.reminderName)"></ion-icon>
+  </ion-item>
+  <div style="padding-top: 50px;"></div>
+  
+  <ion-modal trigger="trigger-editReminder" isOpen="{{modal}}" (ionModalDidDismiss)="closeModal()" (didPresent)="reminderEdit(reminderName)">
+    <ng-template>
+      <ion-list>
+        <ion-item lines="full">
+          <ion-label position="floating"
+            >{{languages["ReminderName"][language]}}</ion-label >
+          <ion-input
+            required
+            [(ngModel)]="reminderUpdateName"
+            values="{{reminderName}}"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{languages["reminderAlertLevel"][language]}}</ion-label>
+          <ion-select
+            [(ngModel)]="reminderAlertLevel"
+            placeholder="Choose Your Weather Alert Level"
+            mode="ios"
+          >
+              <ion-select-option value="1">1</ion-select-option>
+              <ion-select-option value="2">2</ion-select-option>
+              <ion-select-option value="3">3</ion-select-option>
+              <ion-select-option value="4">4</ion-select-option>
+              <ion-select-option value="5">5</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{languages["weathertitle"][language]}}</ion-label>
+          <ion-select
+            required
+            [(ngModel)]="reminderWeatherTitle"
+            placeholder="Choose Your Weather Category"
+            mode="ios"
+            multiple="true"
+            values="{{reminderWeatherTitle}}"
+            (ionChange)="reminderWeatherTitleChange()"
+          >
+            <ion-select-option value="all">{{languages["all"][language]}}</ion-select-option>
+            <ion-select-option value="ash">{{languages["ash"][language]}}</ion-select-option>
+            <ion-select-option value="clear">{{languages["clear"][language]}}</ion-select-option>
+            <ion-select-option value="clouds">{{languages["clouds"][language]}}</ion-select-option>
+            <ion-select-option value="drizzle">{{languages["drizzle"][language]}}</ion-select-option>
+            <ion-select-option value="dust">{{languages["dust"][language]}}</ion-select-option>
+            <ion-select-option value="fog">{{languages["fog"][language]}}</ion-select-option>
+            <ion-select-option value="haze">{{languages["haze"][language]}}</ion-select-option>
+            <ion-select-option value="mist">{{languages["mist"][language]}}</ion-select-option>
+            <ion-select-option value="rain">{{languages["rain"][language]}}</ion-select-option>
+            <ion-select-option value="sand">{{languages["sand"][language]}}</ion-select-option>
+            <ion-select-option value="smoke">{{languages["smoke"][language]}}</ion-select-option>
+            <ion-select-option value="snow">{{languages["snow"][language]}}</ion-select-option>
+            <ion-select-option value="squall">{{languages["squall"][language]}}</ion-select-option>
+            <ion-select-option value="thunderstorm">{{languages["thunderstorm"][language]}}</ion-select-option>
+            <ion-select-option value="tornado">{{languages["tornado"][language]}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>{{languages["weatherdesc"][language]}}</ion-label>
+          <ion-select
+            [(ngModel)]="reminderWeatherDesc"
+            placeholder="Choose Your Weather Category"
+            mode="ios"
+            multiple="true"
+            values="{{reminderWeatherDesc}}"
+            (ionChange)="reminderWeatherDescChange()"
+          >
+            <ion-select-option value="all">{{languages["all"][language]}}</ion-select-option>
+            
+            <div *ngIf="reminderWeatherTitle.includes('clouds') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="few clouds">{{languages["fewclouds"][language]}}</ion-select-option>
+              <ion-select-option value="scattered clouds">{{languages["scatteredclouds"][language]}}</ion-select-option>
+              <ion-select-option value="broken clouds">{{languages["brokenclouds"][language]}}</ion-select-option>
+              <ion-select-option value="overcast clouds">{{languages["overcastclouds"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('drizzle') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="drizzle">{{languages["drizzle"][language]}}</ion-select-option>
+              <ion-select-option value="light intensity drizzle">{{languages["lightintensitydrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity drizzle">{{languages["heavyintensitydrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="light intensity drizzle rain">{{languages["lightintensitydrizzlerain"][language]}}</ion-select-option>
+              <ion-select-option value="drizzle rain">{{languages["drizzlerain"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity drizzle rain">{{languages["heavyintensitydrizzlerain"][language]}}</ion-select-option>
+              <ion-select-option value="shower rain and drizzle">{{languages["showerrainanddrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="heavy shower rain and drizzle">{{languages["heavyshowerrainanddrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="shower drizzle">{{languages["showerdrizzle"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('rain') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="light rain">{{languages["lightrain"][language]}}</ion-select-option>
+              <ion-select-option value="moderate rain">{{languages["moderaterain"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity rain">{{languages["heavyintensityrain"][language]}}</ion-select-option>
+              <ion-select-option value="very heavy rain">{{languages["veryheavyrain"][language]}}</ion-select-option>
+              <ion-select-option value="extreme rain">{{languages["extremerain"][language]}}</ion-select-option>
+              <ion-select-option value="freezing rain">{{languages["freezingrain"][language]}}</ion-select-option>
+              <ion-select-option value="light intensity shower rain">{{languages["lightintensityshowerrain"][language]}}</ion-select-option>
+              <ion-select-option value="shower rain">{{languages["showerrain"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity shower rain">{{languages["heavyintensityshowerrain"][language]}}</ion-select-option>
+              <ion-select-option value="ragged shower rain">{{languages["raggedshowerrain"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('snow') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="light snow">{{languages["lightsnow"][language]}}</ion-select-option>
+              <ion-select-option value="snow">{{languages["snow"][language]}}</ion-select-option>
+              <ion-select-option value="heavy snow">{{languages["heavysnow"][language]}}</ion-select-option>
+              <ion-select-option value="sleet">{{languages["sleet"][language]}}</ion-select-option>
+              <ion-select-option value="light shower sleet">{{languages["lightshowersleet"][language]}}</ion-select-option>
+              <ion-select-option value="shower sleet">{{languages["showersleet"][language]}}</ion-select-option>
+              <ion-select-option value="light rain and snow">{{languages["lightrainandsnow"][language]}}</ion-select-option>
+              <ion-select-option value="rain and snow">{{languages["rainandsnow"][language]}}</ion-select-option>
+              <ion-select-option value="light shower snow">{{languages["lightshowersnow"][language]}}</ion-select-option>
+              <ion-select-option value="shower snow">{{languages["showersnow"][language]}}</ion-select-option>
+              <ion-select-option value="heavy shower snow">{{languages["heavyshowersnow"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('thunderstorm') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="thunderstorm">{{languages["thunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with light rain">{{languages["thunderstormwithlightrain"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with rain">{{languages["thunderstormwithrain"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with heavy rain">{{languages["thunderstormwithheavyrain"][language]}}</ion-select-option>
+              <ion-select-option value="light thunderstorm">{{languages["lightthunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="heavy thunderstorm">{{languages["heavythunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="ragged thunderstorm">{{languages["raggedthunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with light drizzle">{{languages["thunderstormwithlightdrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with drizzle">{{languages["thunderstormwithdrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with heavy drizzle">{{languages["thunderstormwithheavydrizzle"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('clear') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="clear sky">{{languages["clearsky"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('mist') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="mist">{{languages["mist"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('smoke') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="smoke">{{languages["smoke"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('haze') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="haze">{{languages["haze"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('dust') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="dust">{{languages["dust"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('fog') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="fog">{{languages["fog"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('sand') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="sand">{{languages["sand"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('dust') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="dust">{{languages["dust"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('ash') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="volcanic ash">{{languages["volcanicash"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('squall') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="squalls">{{languages["squall"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('tornado') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="tornado">{{languages["tornado"][language]}}</ion-select-option>
+            </div>
+          
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">{{languages["description"][language]}}</ion-label>
+          <ion-textarea rows="6" cols="20" [(ngModel)]="reminderWeatherTextArea" values="{{reminderWeatherTextArea}}"></ion-textarea>
+        </ion-item>
+        
+        <ion-item lines="none">
+          <ion-button
+            slot="end"
+            size="medium"
+            color="danger"
+            mode="ios"
+            (click)="updateReminder()"
+            >{{languages["update"][language]}}</ion-button
+          >
+        </ion-item>
+      </ion-list>
+    </ng-template>
+  </ion-modal>
+  
+</ion-content>
+
+
+
+  <ion-modal trigger="trigger-createReminder" isOpen="{{createModal}}" (willPresent)="reminderCreateDismiss()" (ionModalDidDismiss)="closeModal()">
+    <ng-template>
+      <ion-list>
+        <ion-item lines="full">
+          <ion-label position="floating"
+            >{{languages["ReminderName"][language]}}</ion-label >
+          <ion-input
+            required
+            [(ngModel)]="reminderName"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>{{languages["reminderAlertLevel"][language]}}</ion-label>
+          <ion-select
+            [(ngModel)]="reminderAlertLevel"
+            placeholder="Choose Your Weather Alert Level"
+            mode="ios"
+          >
+          <ion-select-option value="1">1</ion-select-option>
+          <ion-select-option value="2">2</ion-select-option>
+          <ion-select-option value="3">3</ion-select-option>
+          <ion-select-option value="4">4</ion-select-option>
+          <ion-select-option value="5">5</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+
+        <ion-item >
+          <ion-label>{{languages["weathertitle"][language]}}</ion-label>
+          <ion-select
+            required
+            [(ngModel)]="reminderWeatherTitle"
+            placeholder="Choose Your Weather Category"
+            mode="ios"
+            multiple="true"
+            (ionChange)="reminderWeatherTitleChange()"
+          >
+            <ion-select-option value='all'>{{languages["all"][language]}}</ion-select-option>
+            <ion-select-option value="ash">{{languages["ash"][language]}}</ion-select-option>
+            <ion-select-option value="clear">{{languages["clear"][language]}}</ion-select-option>
+            <ion-select-option value="clouds">{{languages["clouds"][language]}}</ion-select-option>
+            <ion-select-option value="drizzle">{{languages["drizzle"][language]}}</ion-select-option>
+            <ion-select-option value="dust">{{languages["dust"][language]}}</ion-select-option>
+            <ion-select-option value="fog">{{languages["fog"][language]}}</ion-select-option>
+            <ion-select-option value="haze">{{languages["haze"][language]}}</ion-select-option>
+            <ion-select-option value="mist">{{languages["mist"][language]}}</ion-select-option>
+            <ion-select-option value="rain">{{languages["rain"][language]}}</ion-select-option>
+            <ion-select-option value="sand">{{languages["sand"][language]}}</ion-select-option>
+            <ion-select-option value="smoke">{{languages["smoke"][language]}}</ion-select-option>
+            <ion-select-option value="snow">{{languages["snow"][language]}}</ion-select-option>
+            <ion-select-option value="squall">{{languages["squall"][language]}}</ion-select-option>
+            <ion-select-option value="thunderstorm">{{languages["thunderstorm"][language]}}</ion-select-option>
+            <ion-select-option value="tornado">{{languages["tornado"][language]}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label>{{languages["weatherdesc"][language]}}</ion-label>
+          <ion-select
+            [(ngModel)]="reminderWeatherDesc"
+            placeholder="Choose Your Weather Category"
+            mode="ios"
+            multiple="true"
+            (ionChange)="reminderWeatherDescChange()"
+          >
+            <ion-select-option value="all">{{languages["all"][language]}}</ion-select-option>
+            
+            <div *ngIf="reminderWeatherTitle.includes('clouds') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="few clouds">{{languages["fewclouds"][language]}}</ion-select-option>
+              <ion-select-option value="scattered clouds">{{languages["scatteredclouds"][language]}}</ion-select-option>
+              <ion-select-option value="broken clouds">{{languages["brokenclouds"][language]}}</ion-select-option>
+              <ion-select-option value="overcast clouds">{{languages["overcastclouds"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('drizzle') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="drizzle">{{languages["drizzle"][language]}}</ion-select-option>
+              <ion-select-option value="light intensity drizzle">{{languages["lightintensitydrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity drizzle">{{languages["heavyintensitydrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="light intensity drizzle rain">{{languages["lightintensitydrizzlerain"][language]}}</ion-select-option>
+              <ion-select-option value="drizzle rain">{{languages["drizzlerain"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity drizzle rain">{{languages["heavyintensitydrizzlerain"][language]}}</ion-select-option>
+              <ion-select-option value="shower rain and drizzle">{{languages["showerrainanddrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="heavy shower rain and drizzle">{{languages["heavyshowerrainanddrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="shower drizzle">{{languages["showerdrizzle"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('rain') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="light rain">{{languages["lightrain"][language]}}</ion-select-option>
+              <ion-select-option value="moderate rain">{{languages["moderaterain"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity rain">{{languages["heavyintensityrain"][language]}}</ion-select-option>
+              <ion-select-option value="very heavy rain">{{languages["veryheavyrain"][language]}}</ion-select-option>
+              <ion-select-option value="extreme rain">{{languages["extremerain"][language]}}</ion-select-option>
+              <ion-select-option value="freezing rain">{{languages["freezingrain"][language]}}</ion-select-option>
+              <ion-select-option value="light intensity shower rain">{{languages["lightintensityshowerrain"][language]}}</ion-select-option>
+              <ion-select-option value="shower rain">{{languages["showerrain"][language]}}</ion-select-option>
+              <ion-select-option value="heavy intensity shower rain">{{languages["heavyintensityshowerrain"][language]}}</ion-select-option>
+              <ion-select-option value="ragged shower rain">{{languages["raggedshowerrain"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('snow') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="light snow">{{languages["lightsnow"][language]}}</ion-select-option>
+              <ion-select-option value="snow">{{languages["snow"][language]}}</ion-select-option>
+              <ion-select-option value="heavy snow">{{languages["heavysnow"][language]}}</ion-select-option>
+              <ion-select-option value="sleet">{{languages["sleet"][language]}}</ion-select-option>
+              <ion-select-option value="light shower sleet">{{languages["lightshowersleet"][language]}}</ion-select-option>
+              <ion-select-option value="shower sleet">{{languages["showersleet"][language]}}</ion-select-option>
+              <ion-select-option value="light rain and snow">{{languages["lightrainandsnow"][language]}}</ion-select-option>
+              <ion-select-option value="rain and snow">{{languages["rainandsnow"][language]}}</ion-select-option>
+              <ion-select-option value="light shower snow">{{languages["lightshowersnow"][language]}}</ion-select-option>
+              <ion-select-option value="shower snow">{{languages["showersnow"][language]}}</ion-select-option>
+              <ion-select-option value="heavy shower snow">{{languages["heavyshowersnow"][language]}}</ion-select-option>
+            </div>
+            
+            <div *ngIf="reminderWeatherTitle.includes('thunderstorm') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="thunderstorm">{{languages["thunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with light rain">{{languages["thunderstormwithlightrain"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with rain">{{languages["thunderstormwithrain"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with heavy rain">{{languages["thunderstormwithheavyrain"][language]}}</ion-select-option>
+              <ion-select-option value="light thunderstorm">{{languages["lightthunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="heavy thunderstorm">{{languages["heavythunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="ragged thunderstorm">{{languages["raggedthunderstorm"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with light drizzle">{{languages["thunderstormwithlightdrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with drizzle">{{languages["thunderstormwithdrizzle"][language]}}</ion-select-option>
+              <ion-select-option value="thunderstorm with heavy drizzle">{{languages["thunderstormwithheavydrizzle"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('clear') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="clear sky">{{languages["clearsky"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('mist') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="mist">{{languages["mist"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('smoke') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="smoke">{{languages["smoke"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('haze') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="haze">{{languages["haze"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('dust') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="dust">{{languages["dust"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('fog') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="fog">{{languages["fog"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('sand') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="sand">{{languages["sand"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('dust') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="dust">{{languages["dust"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('ash') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="volcanic ash">{{languages["volcanicash"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('squall') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="squalls">{{languages["squall"][language]}}</ion-select-option>
+            </div>
+
+            <div *ngIf="reminderWeatherTitle.includes('tornado') || reminderWeatherTitle.includes('all')">
+              <ion-select-option value="tornado">{{languages["tornado"][language]}}</ion-select-option>
+            </div>
+            
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">{{languages["description"][language]}}</ion-label>
+          <ion-textarea rows="6" cols="20" [(ngModel)]="reminderWeatherTextArea"></ion-textarea>
+        </ion-item>
+        
+        <ion-item lines="none">
+          <ion-button
+            slot="end"
+            size="medium"
+            color="danger"
+            mode="ios"
+            (click)="createReminder()"
+            >{{languages["create"][language]}}</ion-button
+          >
+        </ion-item>
+          
+      </ion-list>
+    </ng-template>
+  </ion-modal>

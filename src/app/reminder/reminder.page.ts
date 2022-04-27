@@ -1,46 +1,17 @@
 import { Component } from '@angular/core';
-import { MenuController } from '@ionic/angular';
-import { DatabaseService } from '../app/api/database.service';
+import { DatabaseService } from '../api/database.service';
 import { Platform } from '@ionic/angular';
-import { WeatherService } from '../app/api/weather.service';
-import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
-import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
-import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
-
+import { WeatherService } from '../api/weather.service';
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss'],
+  selector: 'app-reminder',
+  templateUrl: './reminder.page.html',
+  styleUrls: ['./reminder.page.scss'],
 })
-export class AppComponent {
-  languages = {
-    Home: { Turkish: 'Anasayfa', English: 'Home',German:"Zuhause", French:"Maison", Spanish:"Maison",Chinese:"家" },
-    Clothes: { Turkish: 'Kıyafetler', English: 'Clothes',German:"Kleider", French:"Vêtements", Spanish:"Ropa",Chinese:"衣服" },
-    Songs: { Turkish: 'Şarkılar', English: 'Songs',German:"Lieder", French:"Chansons", Spanish:"Canciones",Chinese:"歌曲" },
-    Profile: { Turkish: 'Profil', English: 'Profile',German:"Profil", French:"Profil", Spanish:"Profil",Chinese:"轮廓" },
-FirstName: { Turkish: 'Ad', English: 'First Name',German:"Vorname", French:"Prénom", Spanish:"Prénom",Chinese:"名" },
-LastName: { Turkish: 'Soyad', English: 'Last Name',German:"Nachname", French:"Nom de famille", Spanish:"Nom de famille",Chinese:"姓" },
-YearOfBirth: { Turkish: 'Doğum yılı', English: 'Year of Birth',German:"Geburtsjahr", French:"Année de naissance", Spanish:"Année de naissance",Chinese:"出生年份" },
-Gender: { Turkish: 'Cinsiyet', English: 'Gender',German:"Geschlecht", French:"Le sexe", Spanish:"Le sexe",Chinese:"性别" },
-Male: { Turkish: 'Erkek', English: 'Male',German:"Männlich", French:"Homme", Spanish:"Homme",Chinese:"男性" },
-Female: { Turkish: 'Kadın', English: 'Female',German:"Weiblich", French:"Femme", Spanish:"Femme",Chinese:"女性" },
-MusicPlatform: { Turkish: 'Muzik Platformu', English: 'Music Platform',German:"Musik Plattform", French:"Plateforme musicale", Spanish:"Plateforme musicale",Chinese:"音乐平台" },
-language: { Turkish: 'Dil', English: 'language',German:"Sprache", French:"Langue", Spanish:"Langue",Chinese:"语言" },
-Turkish: { Turkish: 'Türkçe', English: 'Turkish',German:"Türkisch", French:"turc", Spanish:"turc",Chinese:"土耳其" },
-English: { Turkish: 'İngilizce', English: 'English',German:"Englisch", French:"Anglais", Spanish:"Anglais",Chinese:"英语" },
-German: { Turkish: 'Almanca', English: 'German',German:"Deutsch", French:"Allemand", Spanish:"Allemand",Chinese:"德语" },
-Spanish: { Turkish: 'İspanyolca', English: 'Spanish',German:"Spanisch", French:"Espagnole", Spanish:"Español",Chinese:"西班牙语" },
-French: { Turkish: 'Fransızca', English: 'French',German:"Französisch", French:"français", Spanish:"français",Chinese:"法语" },
-Chinese: { Turkish: 'Çince', English: 'Chinese',German:"Chinesisch", French:"Chinoise", Spanish:"China",Chinese:"中国人" },
-Save: { Turkish: 'Kaydet', English: 'Save',German:"Speichern", French:"sauvegarder", Spanish:"sauvegarder",Chinese:"保存" },
-Sunrise: { Turkish: 'Gün Batımı', English: 'Sunrise',German:"Sonnenaufgang", French:"lever du soleil", Spanish:"lever du soleil",Chinese:"日出" },
-Sunset: { Turkish: 'Gün Doğumu', English: 'Sunset',German:"Sonnenuntergang", French:"Le coucher du soleil", Spanish:"Le coucher du soleil",Chinese:"日落" },
-WindSpeed: { Turkish: 'Rüzgar Hızı', English: 'Wind Speed',German:"Windgeschwindigkeit", French:"Vitesse du vent", Spanish:"Vitesse du vent",Chinese:"风速" },
-Weather: { Turkish: 'Hava Durumu', English: 'Weather',German:"Wetter", French:"Temps", Spanish:"Temps",Chinese:"天气" },
-Reminder: {Turkish:"Hatırlatıcı", English: "Reminder",German:"Erinnerung", French:"Rappel", Spanish:"Rappel",Chinese:"提醒"},
+export class ReminderPage {
+
+   languages = {
+   
 ReminderName: {Turkish:"Hatırlatıcı İsmi", English: "Reminder Name",German:"Erinnerungsname", French:"Nom du rappel", Spanish:"Nom du rappel",Chinese:"提醒名称"},
-City: { Turkish: 'Şehir', English: 'City',German:"Stadt", French:"Ville", Spanish:"Ville",Chinese:"城市" },
 thunderstormwithlightrain: { Turkish: 'Hafif Yağmurlu Fırtına', English: 'Thunderstorm With Light Rain' ,German:"Gewitter mit leichtem Regen", French:"Orage avec pluie légère", Spanish:"Orage avec pluie légère",Chinese:"有小雨的雷暴"},
 thunderstormwithrain	: { Turkish: 'Yağmurlu Fırtına', English: 'Thunderstorm With Rain',German:"Gewitter mit Regen", French:"Orage avec pluie", Spanish:"Orage avec pluie",Chinese:"有雨的雷暴" },
 thunderstormwithheavyrain	: { Turkish: 'Şiddetli Yağmurlu Fırtına', English: 'Thunderstorm With Heavy Rain',German:"Gewitter mit starkem Regen", French:"Orage avec de fortes pluies", Spanish:"Orage avec de fortes pluies",Chinese:"雷暴与大雨" },
@@ -107,137 +78,36 @@ weathertitle:{Turkish:"Hava Durumu Başlığı",English:"Weather Title",German:"
 weatherdesc:{Turkish:"Hava Durumu Açıklaması",English:"Weather Desc",German:"Wetterbesch", French:"Description météo", Spanish:"Description météo",Chinese:"天气描述"},
 update:{Turkish:"Güncelle", English:"Update",German:"Aktualisieren", French:"Mettre à jour", Spanish:"Mettre à jour",Chinese:"更新"},
 reminderAlertLevel:{Turkish:"Hatırlatıcı Uyarı Seviyesi",English:"Reminder Alert Level",German:"Erinnerungsalarmstufe", French:"Niveau d'alerte de rappel", Spanish:"Niveau d'alerte de rappel",Chinese:"提醒警报级别"},
-playlistName:{Turkish:"Oynatma Listesi Adı",English:"Playlist Name",German:"Playlist-Name", French:"Nom de la liste de lecture", Spanish:"Nom de la liste de lecture",Chinese:"播放列表名称"},
-categories:{Turkish:"Kategoriler",English:"Categories",German:"Kategorien", French:"Catégories", Spanish:"Catégories",Chinese:"类别"},
-songCount:{Turkish:"Şarkı Sayısı",English:"Number of Songs",German:"Anzahl der Lieder", French:"Nombre de chansons", Spanish:"Nombre de chansons",Chinese:"歌曲数"},
-likes:{Turkish:"Beğenme Sayısı",English:"likes",German:"likes", French:"aime", Spanish:"aime",Chinese:"喜欢"},
-blue:{Turkish:"Mavi",English:"blue",German:"Blau", French:"bleu", Spanish:"bleu",Chinese:"蓝色"},
-green:{Turkish:"Yeşil",English:"green",German:"Grün", French:"vert", Spanish:"vert",Chinese:"绿色"},
-yellow:{Turkish:"Sarı",English:"yellow",German:"Gelb", French:"jaune", Spanish:"jaune",Chinese:"黄色的"},
-red:{Turkish:"Kırmızı",English:"red",German:"rot", French:"rouge", Spanish:"rouge",Chinese:"红色的"},
-black:{Turkish:"Siyah",English:"black",German:"Schwarz", French:"le noir", Spanish:"le noir",Chinese:"黑色的"},
-name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chinese:"姓名"}
   };
-      modal="false";
-      createModal="false";
-      reminderModal="false";
-      editReminderModal="false";
-      language: string;
+  modal="false";
+  createModal="false";
+  language: string;
 
-      reminderAlertLevel:string;
-      reminderIsActive:string;
-      reminderName:string;
-      reminderWeatherTitle:any;
-      reminderWeatherDesc:any;
-      reminderWeatherTextArea:string;
-      reminder:any;
-      reminderUpdateName:string;
-      weatherMain:string;
-      weatherDesc: string;
-      alert=[];
-      userCount:any;
-      lat: number;
-      long: number;
-  constructor(private menu: MenuController,
+  reminderAlertLevel:string;
+  reminderIsActive:string;
+  reminderName:string;
+  reminderWeatherTitle:any;
+  reminderWeatherDesc:any;
+  reminderWeatherTextArea:string;
+  reminder:any;
+  reminderUpdateName:string;
+  weatherMain:string;
+  weatherDesc: string;
+  alert=[];
+  constructor(
+    private db: DatabaseService,
     public platform: Platform,
-    private db: DatabaseService,    private geoLocation: Geolocation,
-    private weather: WeatherService,
-    private androidPermissions: AndroidPermissions,
-    private diagnostic: Diagnostic,
-    private locationAccuracy: LocationAccuracy,) { 
-    platform.ready().then(() => 
-    {
-      this.db.getUser().then((result) => {
-        
-        this.userCount = result.rows.length;
-        
-        this.language = result.rows.item(0).language;
-        this.db.getReminder().then((result) => 
-        {
-          this.reminder=result;
-          this.getLocation();
-        });
-        
+    private weather: WeatherService,) 
+  {
+    this.db.getUser().then((result) => {
+      this.language = result.rows.item(0).language;
+      this.db.getReminder().then((result) => 
+      {
+        this.reminder=result;
       });
-     
-        
-    }).catch((e)=>{this.db.sendMsg(e);});}
-    getLocation() {
-      this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then((result)=>{
-        if(result.hasPermission==false)
-        {
-          this.db.sendMsg("Please accept location permissions or you can entry by city name");
-          this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(()=>
-          {
-            this.getLocation();
-          });    
-          
-          this.db.sendMsg("Please accept location permissions or you can entry by city name");
-        }
-        else{
-          this.diagnostic.isLocationEnabled().then((result)=>
-          {
-            if(result==false)
-            {
-              this.locationAccuracy.request(this.locationAccuracy.REQUEST_PRIORITY_HIGH_ACCURACY);
-              this.getLocation();
-            }
-            else
-            {
-              this.geoLocation
-              .getCurrentPosition()
-              .then((resp) => 
-              {
-                this.lat = resp.coords.latitude;
-                this.long = resp.coords.longitude;
-               
-                this.weather
-                  .getWeatherByCoord(this.lat, this.long)
-                  .then((weatherApi) => {
-        
-                    this.weatherMain= weatherApi['weather'][0]['main']
-                    this.weatherDesc = weatherApi['weather'][0]['description'];
-                    this.db.getAlert(this.weatherMain.toLowerCase(),this.weatherDesc.toLowerCase()).then((result) => 
-                    {
-                      this.alert=result;
-                    });
-                  });
-              })
-              .catch((error) => {
-                this.db.sendMsg(JSON.stringify(error));
-              });
-            }
-          })
-          
-         
-        }
-      },(err)=>{this.db.sendMsg("Please accept location permissions or you can entry by city name");});
-      
-    }
-
-openCustom() {
-  this.menu.enable(true, 'custom');
-  this.menu.open('custom');
-}
-closeMenu() {
-  this.menu.close();
-}
-openReminderMenu() {
-  this.menu.enable(true, 'reminder');
-  this.menu.open('reminder');
-}
-closeReminderMenu() {
-  this.menu.close();
-}
-openReminderModal()
-{
-  this.reminderModal="true";
-}
-closeReminderModal()
-{
-  this.reminderModal="false";
-}
-createReminder()
+    });
+  }
+  createReminder()
   {
     if(this.reminderName=="" || this.reminderName==undefined)
     {

@@ -14,6 +14,9 @@ import { HttpClientModule,HttpClient } from '@angular/common/http';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
+import { Diagnostic } from '@awesome-cordova-plugins/diagnostic/ngx';
+import { LocationAccuracy } from '@awesome-cordova-plugins/location-accuracy/ngx';
+import { File } from '@awesome-cordova-plugins/file/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -33,8 +36,16 @@ import { HTTP } from '@awesome-cordova-plugins/http/ngx';
     Geolocation,
     AndroidPermissions,
     HTTP,
+    Diagnostic,
+    LocationAccuracy,
+    File,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],
+  
 })
-export class AppModule {}
+
+export class AppModule 
+{
+  
+}
