@@ -81,6 +81,7 @@ brokenclouds: { Turkish: 'Parçalı Bulutlu', English: 'Broken Clouds',German:"A
 overcastclouds	: { Turkish: 'Parçalı Bulutlu', English: 'Overcast Clouds',German:"Bedeckte Wolken", French:"Nuages couverts", Spanish:"Nuages couverts",Chinese:"阴云密布"},
 
   };
+  termsModal="false";
   firstName: string;
   lastName: string;
   year: number;
@@ -127,14 +128,19 @@ overcastclouds	: { Turkish: 'Parçalı Bulutlu', English: 'Overcast Clouds',Germ
           this.gender = result.rows.item(0).gender;
           this.musicPlatform = result.rows.item(0).musicPlatform.split(",");
           this.language = result.rows.item(0).language;
-          this.getLocation();
         }
-
-       
       });
+      this.getLocation();
     }).catch((e)=>{this.db.sendMsg(e);});
   }
-
+  closeTermsModal()
+  {
+    this.termsModal="false";
+  }
+  openTermsModal()
+  {
+    this.termsModal="true";
+  }
   createUser() {
     if (
       this.termsAndConditions == false ||
@@ -167,7 +173,11 @@ overcastclouds	: { Turkish: 'Parçalı Bulutlu', English: 'Overcast Clouds',Germ
           this.musicPlatform,
           this.language
         );
-        this.getLocation();
+        
+        if(this.userCount==1)
+        {
+          setTimeout(() => {  window.location.reload(); }, 2000);
+        }
       }
     }
   }

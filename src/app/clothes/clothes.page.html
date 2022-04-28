@@ -5,15 +5,15 @@
   </ion-refresher>  
 
 
-  <div class="weatherBackground" style="position: absolute;background-image: url('assets/images/clothesBackGround/{{clothesBackGround}}.gif');width: 100%; height: 100%;">
-    <div class="square-a" style="width: 100%;height: {{clothesTopHeight}}%;padding-top: 50px;margin-top: 5%;padding-bottom: 2.5%;"> 
-      <div class="square-b" style="width: 100%;height: 100%;">
-        <ion-icon  src="{{clothesTopPath}}{{clothesTopNumber}}.svg" style="color:{{clothesTopColor}}; width: 100%; height: 100%;"></ion-icon>
+  <div class="weatherBackground" style="background-image: url('assets/images/clothesBackGround/{{clothesBackGround}}.gif')">
+    <div class="square-a" style="height: {{clothesTopHeight}}%;"> 
+      <div class="square-b">
+        <ion-icon class="clothesTop" src="{{clothesTopPath}}{{clothesTopNumber}}.svg" style="color:{{clothesTopColor}};"></ion-icon>
       </div>
     </div>
-    <div class="square-c" style="width: 100%; height: {{clothesBottomHeight}}%;" > 
-      <div class="square-d" style="width: 100%;height: 100%;">
-        <ion-icon src="{{clothesBottomPath}}{{clothesBottomNumber}}.svg" style="color:{{clothesBottomColor}}	; width: 80%; height: 100%;margin-left:10%;"></ion-icon>
+    <div class="square-c" style="height: {{clothesBottomHeight}}%;" > 
+      <div class="square-d">
+        <ion-icon class="clothesBottom" src="{{clothesBottomPath}}{{clothesBottomNumber}}.svg" style="color:{{clothesBottomColor}};"></ion-icon>
       </div>
     </div>
   </div>

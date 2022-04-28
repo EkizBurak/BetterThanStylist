@@ -68,6 +68,7 @@ export class DatabaseService {
       this.sendMsg('User Create Successfully');
 
       this.userCount += 1;
+      
       return this.userCount;
     }
   }

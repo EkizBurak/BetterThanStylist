@@ -6,7 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: HomePage,
-  }
+  },
+  {
+    path: 'deneme',
+    loadChildren: () => import('../app.component').then( (m) => m.AppComponent)
+  },
 ];
 
 @NgModule({

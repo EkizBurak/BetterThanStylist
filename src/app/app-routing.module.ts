@@ -21,10 +21,6 @@ const routes: Routes = [
     loadChildren: () => import('./playlist/playlist.module').then( m => m.PlaylistPageModule)
   },
   {
-    path: 'reminder',
-    loadChildren: () => import('./reminder/reminder.module').then( m => m.ReminderPageModule)
-  },
-  {
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
@@ -32,7 +28,7 @@ const routes: Routes = [
     path: 'alert',
     loadChildren: () => import('./alert/alert.module').then( m => m.AlertPageModule)
   },
-
+  
 ];
 
 @NgModule({
