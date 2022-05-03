@@ -1,6 +1,7 @@
 <ion-content [fullscreen]="true" *ngIf="userCount==0">
-  
-  <ion-slides pager="true" [options]="slideOpts">
+  <meta name="color-scheme" content="light dark" />
+
+  <ion-slides pager="true">
     <ion-slide style="background-image: url('assets/images/slider1.jpg')">
       <h1>Welcome</h1>
       <h4>Better Than Stylist is a practical of shaping your lifestyle</h4>
@@ -14,8 +15,8 @@
       </h4>
     </ion-slide>
 
-    <ion-slide style="padding-top: 0px"
-      ><ion-content [fullscreen]="true">
+    <ion-slide class="slider3"
+      ><ion-content class="slider3Content">
         <ion-toolbar>
           <ion-title>Register</ion-title>
         </ion-toolbar>
@@ -47,7 +48,6 @@
           <ion-select
             required
             [(ngModel)]="gender"
-            [interfaceOptions]="customAlertOptions"
             interface="Choose your gender"
             placeholder="Select One"
             mode="ios"
@@ -61,7 +61,6 @@
           <ion-select
             required
             [(ngModel)]="musicPlatform"
-            [interfaceOptions]="customAlertOptions"
             interface="Choose your platform"
             mode="ios"
             multiple="true"
@@ -80,7 +79,6 @@
           <ion-select
             required
             [(ngModel)]="language"
-            [interfaceOptions]="customAlertOptions"
             interface="Choose your language
                 "
             mode="ios"
@@ -205,7 +203,7 @@ III- GENERAL PROVISIONS:<br>
     </ion-card>
   </div>  
   
-  <div *ngIf="!weatherDesc" style="padding-top: 60px;">
+  <div *ngIf="!weatherDesc" style="padding-top: 60px;" >
     <ion-list>
       <ion-item>
         <ion-avatar slot="start">

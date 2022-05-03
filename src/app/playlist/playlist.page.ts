@@ -29,7 +29,7 @@ export class PlaylistPage {
   youtubeMusicPlaylists=[];
   appleMusicPlaylists=[];
   playlistsLength:any;
-  playlistsImage:number;
+  playlistsImage=[];
 
   constructor(
     private db: DatabaseService,
@@ -48,20 +48,16 @@ export class PlaylistPage {
     }
 
   getLocation() {
-    this.file.listDir(this.file.applicationDirectory, 'www/assets/images/playlistsBackGround/')
-    .then(items =>{
-      this.playlistsImage = Math.floor(Math.random() * items.length)+1;
-    });
     this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then((result)=>{
       if(result.hasPermission==false)
       {
-        this.db.sendMsg("Please accept location permissions or you can entry by city name");
+        this.db.sendMsg("Please accept location permissions");
         this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(()=>
         {
           this.getLocation();
         });    
         
-        this.db.sendMsg("Please accept location permissions or you can entry by city name");
+        this.db.sendMsg("Please accept location permissions");
       }
       else{
         this.diagnostic.isLocationEnabled().then((result)=>
@@ -92,6 +88,7 @@ export class PlaylistPage {
                     this.youtubeMusicPlaylists=result["youtubeMusicPlaylist"];
                     this.appleMusicPlaylists=result["appleMusicPlaylist"];
                     this.playlistsLength=this.spotifyPlaylists.length;
+                    
                     if (this.youtubeMusicPlaylists.length>this.playlistsLength)
                     {
                       this.playlistsLength=this.youtubeMusicPlaylists.length;
@@ -100,7 +97,18 @@ export class PlaylistPage {
                     {
                       this.playlistsLength=this.appleMusicPlaylists.length;
                     }
-
+                    if(this.playlistsImage.length>1)
+                    {
+                      this.playlistsImage=[];
+                    }
+                    for(let i=0;i<=this.playlistsLength;i++)
+                      {
+                        this.file.listDir(this.file.applicationDirectory, 'www/assets/images/playlistsBackGround/')
+                        .then(items =>{
+                        this.playlistsImage.push(Math.floor(Math.random() * items.length)+1);
+                        });
+                      }
+                   
                     this.playlistsLength = Array(this.spotifyPlaylists.length).fill(this.spotifyPlaylists.length).map((x,i)=>i);
                   });
                 });
@@ -109,7 +117,7 @@ export class PlaylistPage {
           }
         })
       }
-    },(err)=>{this.db.sendMsg("Please accept location permissions or you can entry by city name");});
+    },(err)=>{this.db.sendMsg("Please accept location permissions");});
   }
 
   refreshGetPlaylist(event)
@@ -118,5 +126,13 @@ export class PlaylistPage {
     setTimeout(() => {
       event.target.complete();
     }, 1000);
+  }
+  ionViewWillEnter()
+  {
+    this.db.getUser().then((result) => {
+      this.musicPlatform = result.rows.item(0).musicPlatform.split(",");
+      this.language = result.rows.item(0).language;
+      this.getLocation();
+  });
   }
 }

@@ -168,7 +168,7 @@ export class ClothesPage{
           }
         })
       }
-    },(err)=>{this.db.sendMsg("Please accept location permissions or you can entry by city name");});
+    },(err)=>{this.db.sendMsg("Please accept location permissions");});
   }
   refreshGetClothes(event)
   {
@@ -176,5 +176,13 @@ export class ClothesPage{
     setTimeout(() => {
       event.target.complete();
     }, 1000);
+  }
+  ionViewWillEnter()
+  {
+    this.db.getUser().then((result) => 
+    {
+        this.gender = result.rows.item(0).gender;
+        this.getLocation();
+    });
   }
 }
