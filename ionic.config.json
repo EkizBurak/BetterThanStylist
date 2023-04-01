@@ -1,0 +1,7 @@
+{
+  "name": "BetterThanStylist",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

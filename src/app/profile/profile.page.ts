@@ -46,5 +46,6 @@ export class ProfilePage {
       this.musicPlatform,
       this.language
     );
+    setTimeout(() => {  window.location.reload(); }, 1000);
   }
 }

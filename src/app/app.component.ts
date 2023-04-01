@@ -116,7 +116,8 @@ green:{Turkish:"Yeşil",English:"green",German:"Grün", French:"vert", Spanish:"
 yellow:{Turkish:"Sarı",English:"yellow",German:"Gelb", French:"jaune", Spanish:"jaune",Chinese:"黄色的"},
 red:{Turkish:"Kırmızı",English:"red",German:"rot", French:"rouge", Spanish:"rouge",Chinese:"红色的"},
 black:{Turkish:"Siyah",English:"black",German:"Schwarz", French:"le noir", Spanish:"le noir",Chinese:"黑色的"},
-name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chinese:"姓名"}
+name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chinese:"姓名"},
+privacypolicy:{Turkish:"Gizlilik Politikası",English:"Privacy Policy",German:"Datenschutz-Bestimmungen", French:"Politique de confidentialité", Spanish:"Política de privacidad",Chinese:"隐私政策"}
   };
       modal="false";
       createModal="false";
@@ -140,7 +141,8 @@ name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chi
       long: number;
   constructor(private menu: MenuController,
     public platform: Platform,
-    private db: DatabaseService,    private geoLocation: Geolocation,
+    private db: DatabaseService,    
+    private geoLocation: Geolocation,
     private weather: WeatherService,
     private androidPermissions: AndroidPermissions,
     private diagnostic: Diagnostic,
@@ -166,13 +168,13 @@ name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chi
       this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then((result)=>{
         if(result.hasPermission==false)
         {
-          this.db.sendMsg("Please accept location permissions or you can entry by city name");
+          this.db.sendMsg("Please accept location permissions");
           this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION).then(()=>
           {
             this.getLocation();
           });    
           
-          this.db.sendMsg("Please accept location permissions or you can entry by city name");
+          this.db.sendMsg("Please accept location permissions");
         }
         else{
           this.diagnostic.isLocationEnabled().then((result)=>
@@ -211,7 +213,7 @@ name:{Turkish:"Ad",English:"Name",German:"Name", French:"Nom", Spanish:"Nom",Chi
           
          
         }
-      },(err)=>{this.db.sendMsg("Please accept location permissions or you can entry by city name");});
+      },(err)=>{this.db.sendMsg("Please accept location permissions");});
       
     }
 
@@ -637,6 +639,5 @@ createReminder()
     {
       this.reminderWeatherDesc=reminderWeatherDesc;
     }
-    this.db.sendMsg(reminderWeatherDesc);
   }
 }
